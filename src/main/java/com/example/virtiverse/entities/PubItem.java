@@ -3,6 +3,7 @@ package com.example.virtiverse.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class PubItem {
@@ -27,5 +28,11 @@ public class PubItem {
     @Column(name = "date_post", nullable = false)
     private Date datePost;
 
+    @ManyToOne
+    User user;
+    @OneToMany (mappedBy = "pubItem")
+    private Set<Commentaire> Commentaire;
 
+    @OneToMany (mappedBy="pub")
+    private Set<LikeItem> Likeitem;
 }

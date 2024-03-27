@@ -10,5 +10,10 @@ public class LikeItem {
 
     @Column(nullable = false)
     private String action;
+    @ManyToOne
+    PubItem pub;
+
+    @OneToOne
+    User user;
 
 }

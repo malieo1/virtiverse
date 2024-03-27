@@ -11,4 +11,11 @@ public class Commentaire {
 
     @Column(nullable = false)
     private String contenu;
+
+    @ManyToOne
+    PubItem pubItem;
+
+    @ManyToOne
+    User user;
+
 }
