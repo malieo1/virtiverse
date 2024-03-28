@@ -18,7 +18,7 @@ public class Commentaire implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_commentaire;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String contenu;
 
     @ManyToOne

@@ -33,7 +33,7 @@ public class PubItem implements Serializable  {
     private Date datePost;
     @ManyToOne
     User user;
-    @OneToMany (mappedBy = "pubItem")
+    @OneToMany ( cascade = CascadeType.ALL, mappedBy = "pubItem")
     private Set<Commentaire> Commentaire;
 
     @OneToMany (mappedBy="pub")
