@@ -1,9 +1,18 @@
 package com.example.virtiverse.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.io.Serializable;
 
 @Entity
-public class Commentaire {
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Commentaire implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
