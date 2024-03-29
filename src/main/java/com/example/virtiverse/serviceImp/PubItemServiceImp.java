@@ -3,7 +3,7 @@ package com.example.virtiverse.serviceImp;
 
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.repository.PubItemRepository;
-import com.example.virtiverse.serviceInterfce.IPubItemService;
+import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

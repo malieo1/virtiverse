@@ -1,8 +1,7 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Commentaire;
-import com.example.virtiverse.entities.PubItem;
-import com.example.virtiverse.serviceInterfce.ICommentaireService;
+import com.example.virtiverse.serviceInterface.ICommentaireService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

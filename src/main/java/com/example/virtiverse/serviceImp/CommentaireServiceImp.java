@@ -4,7 +4,7 @@ import com.example.virtiverse.entities.Commentaire;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.repository.CommentaireRepository;
 import com.example.virtiverse.repository.PubItemRepository;
-import com.example.virtiverse.serviceInterfce.ICommentaireService;
+import com.example.virtiverse.serviceInterface.ICommentaireService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

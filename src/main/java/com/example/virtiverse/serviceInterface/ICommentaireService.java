@@ -1,7 +1,6 @@
-package com.example.virtiverse.serviceInterfce;
+package com.example.virtiverse.serviceInterface;
 
 import com.example.virtiverse.entities.Commentaire;
-import com.example.virtiverse.entities.PubItem;
 
 import java.util.List;
 

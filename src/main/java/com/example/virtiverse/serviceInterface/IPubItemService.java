@@ -1,4 +1,4 @@
-package com.example.virtiverse.serviceInterfce;
+package com.example.virtiverse.serviceInterface;
 
 import com.example.virtiverse.entities.PubItem;
 

@@ -17,8 +17,10 @@ public class LikeItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+    @Enumerated
     @Column(nullable = true)
-    private String action;
+    private Action action;
     @ManyToOne
     PubItem pub;
 

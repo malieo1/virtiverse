@@ -1,10 +1,8 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.PubItem;
-import com.example.virtiverse.serviceInterfce.IPubItemService;
+import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
