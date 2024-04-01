@@ -33,4 +33,10 @@ public class PubItemServiceImp implements IPubItemService {
     public void deletePubitem(Long id_pub) {
         pubItemRepository.deleteById(id_pub);
     }
+
+
+    @Override
+    public List<PubItem> searchPubItems(String keyword) {
+        return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
+    }
 }

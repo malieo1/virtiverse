@@ -10,4 +10,6 @@ public interface IPubItemService {
     PubItem updatePubitem ( PubItem pubItem);
     List<PubItem> getPubitem ();
     void deletePubitem (Long id_pub);
+
+    List<PubItem> searchPubItems(String keyword);
 }

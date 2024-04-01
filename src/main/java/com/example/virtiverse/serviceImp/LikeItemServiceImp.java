@@ -10,20 +10,5 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class LikeItemServiceImp implements ILikeItemService {
-    LikeItemRepository likeItemRepository;
 
-    @Override
-    public LikeItem createLike(LikeItem likeItem) {
-        return null;
-    }
-
-    @Override
-    public LikeItem createDislike(LikeItem likeItem) {
-        return null;
-    }
-
-    @Override
-    public LikeItem addLikeToPub(LikeItem likeItem, Long id_pub) {
-        return null;
-    }
 }
