@@ -1,27 +1,41 @@
 package com.example.virtiverse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
-public class Event {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_event;
-    private String nom_event;
-    private String organisateur_event;
-    private String description_event;
-    private String lieu_event;
-    private Date dateDebut_event;
-    private Date dateFin_event;
+     Long id_event;
+     String nom_event;
+     String organisateur_event;
+     String description_event;
+     String lieu_event;
+     LocalDate dateDebut_event;
+     LocalDate dateFin_event;
 
-    private float prix_event;
+     float prix_event;
 
-    private int capacite_event;
-    private String image_event;
+     int capacite_event;
+     String image_event;
 
-
+    @ManyToOne
+    @JsonIgnore
+    User user;
 
 
 }

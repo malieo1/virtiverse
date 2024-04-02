@@ -26,6 +26,7 @@ public class User {
     )
     private Set<Role> role;
 
-
+    @OneToMany(mappedBy = "user")
+    Set<Event> events;
 
 }
