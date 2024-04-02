@@ -12,4 +12,6 @@ public interface IPubItemService {
     void deletePubitem (Long id_pub);
 
     List<PubItem> searchPubItems(String keyword);
+
+    List<PubItem> getPubItemsSortedByPrice();
 }

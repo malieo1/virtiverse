@@ -41,4 +41,10 @@ public class PubItemController {
         List<PubItem> searchResults = iPubItemService.searchPubItems(keyword);
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     }
+
+    @GetMapping("/sorted-by-price")
+    public ResponseEntity<List<PubItem>> getPubItemsSortedByPrice() {
+        List<PubItem> pubItems = iPubItemService.getPubItemsSortedByPrice();
+        return new ResponseEntity<>(pubItems, HttpStatus.OK);
+    }
 }

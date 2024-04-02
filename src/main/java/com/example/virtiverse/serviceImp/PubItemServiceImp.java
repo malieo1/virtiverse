@@ -5,6 +5,7 @@ import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.repository.PubItemRepository;
 import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,5 +39,10 @@ public class PubItemServiceImp implements IPubItemService {
     @Override
     public List<PubItem> searchPubItems(String keyword) {
         return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
+    }
+
+    public List<PubItem> getPubItemsSortedByPrice() {
+        Sort sortByPrice = Sort.by("prix").ascending();
+        return pubItemRepository.findAll(sortByPrice);
     }
 }
