@@ -1,4 +1,4 @@
-package com.example.virtiverse.serviceIMPL;
+package com.example.virtiverse.serviceImp;
 
 import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.repository.EventRep;
