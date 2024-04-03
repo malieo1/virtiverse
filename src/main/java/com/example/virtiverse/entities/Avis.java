@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -16,18 +15,24 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Covoiturage {
-
+public class Avis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id_cov;
-     int nombre_placecov;
-     LocalDate date_depart;
-     String lieu_depart;
-     String destination;
-     String description;
-     @JsonIgnore
+    Long id_avis;
+    String objet;
+    String description;
+    LocalDate date_avis;
+    int statut;
+    @Enumerated
+    Priorite priorite;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    Covoiturage covoiturage;
+    @JsonIgnore
     @ManyToOne (cascade = CascadeType.ALL)
-        User iduser;
+    User iduser;
+
+
+
 
 }
