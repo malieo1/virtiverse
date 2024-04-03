@@ -1,16 +1,29 @@
 package com.example.virtiverse.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.io.Serializable;
 
 @Entity
-public class Participation {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Participation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_participation;
-     private long numtel;
-     private String email;
-     private int nb_place;
+     Long id_participation;
+      long numtel;
+      String email;
+      int nb_place;
+
+      @ManyToOne
+    Event event;
+      @ManyToOne
+    User user;
 }

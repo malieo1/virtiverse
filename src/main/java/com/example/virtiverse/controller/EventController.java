@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/Evenement")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class EventController {
     IEventService eventService;
 
@@ -27,7 +28,7 @@ public class EventController {
         return eventService.updateEvent(event);
     }
     @GetMapping("/getById/{id_event}")
-    public Event retrieveEvent(@PathVariable ("id_event")Long id_event) {
+    public Event retrieveEvent(@PathVariable ("id_event") Long id_event) {
         return eventService.retrieveEvent(id_event);
     }
     @DeleteMapping("/DeleteById/{id_event}")

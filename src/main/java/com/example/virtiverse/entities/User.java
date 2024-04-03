@@ -28,5 +28,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     Set<Event> events;
+    @OneToMany(mappedBy = "user")
+    Set<Participation> participations;
 
 }
