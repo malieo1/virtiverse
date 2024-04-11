@@ -1,5 +1,6 @@
 package com.example.virtiverse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,6 +35,7 @@ public class PubItem implements Serializable  {
     @ManyToOne
     User user;
     @OneToMany ( cascade = CascadeType.ALL, mappedBy = "pubItem")
+    @JsonIgnore
     private Set<Commentaire> Commentaire;
 
     @OneToMany (mappedBy="pub")
