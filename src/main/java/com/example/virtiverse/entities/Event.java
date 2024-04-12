@@ -28,9 +28,7 @@ public class Event implements Serializable {
      String lieu_event;
      LocalDate dateDebut_event;
      LocalDate dateFin_event;
-
      float prix_event;
-
      int capacite_event;
      String image_event;
 
@@ -38,6 +36,7 @@ public class Event implements Serializable {
     @JsonIgnore
     User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "event")
     Set<Participation> participations;
 

@@ -1,9 +1,11 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Participation;
+import com.example.virtiverse.repository.UserRep;
 import com.example.virtiverse.serviceInterface.IEventService;
 import com.example.virtiverse.serviceInterface.IParticipationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ParticipationController {
     IParticipationService participationService;
+    UserRep userRep;
 
     @GetMapping("/ParticipationController")
     public List<Participation> retrieveAllParticipations() {
@@ -34,5 +37,14 @@ public class ParticipationController {
     @DeleteMapping("/DeleteById/{id_participation}")
     public void removeParticipations(@PathVariable ("id_participation") Long id_participation) {
         participationService.removeParticipations(id_participation);
+    }
+    @PostMapping("/addParticipation/{id_event}/{userName}")
+    public ResponseEntity<String> addParticipationWithIds(@RequestBody Participation participation, @PathVariable Long id_event, @PathVariable String userName) {
+        Participation savedParticipation = participationService.addParticipationWithIds(participation, id_event, userName);
+
+        if (savedParticipation == null) {
+            return ResponseEntity.badRequest().body("Error: Event or User not found");
+        }
+        return null;
     }
 }

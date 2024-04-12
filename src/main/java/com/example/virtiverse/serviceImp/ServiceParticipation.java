@@ -1,8 +1,11 @@
 package com.example.virtiverse.serviceImp;
 
+import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.Participation;
+import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.EventRep;
 import com.example.virtiverse.repository.ParticipationRep;
+import com.example.virtiverse.repository.UserRep;
 import com.example.virtiverse.serviceInterface.IParticipationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ServiceParticipation implements IParticipationService {
     ParticipationRep participationRep;
+    EventRep eventRep;
+    UserRep userRep;
+
     @Override
     public List<Participation> retrieveAllParticipations() {
         return participationRep.findAll();
@@ -36,5 +42,21 @@ public class ServiceParticipation implements IParticipationService {
     @Override
     public void removeParticipations(Long id_participation) {
         participationRep.deleteById(id_participation);
+    }
+
+    @Override
+    public Participation addParticipationWithIds(Participation participation, Long id_event, String userName) {
+        Event event = eventRep.findById(id_event).orElse(null);
+        User user = userRep.findByUserName(userName);
+        if (event == null) {
+            throw new IllegalArgumentException("Event with id " + id_event + " not found");
+        }
+
+        if (user == null) {
+            throw new IllegalArgumentException("User with username " + userName + " not found");
+        }
+        participation.setEvent(event);
+        participation.setUser(user);
+        return participationRep.save(participation);
     }
 }

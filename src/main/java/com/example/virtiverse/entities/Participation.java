@@ -1,5 +1,6 @@
 package com.example.virtiverse.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -22,8 +23,11 @@ public class Participation implements Serializable {
       String email;
       int nb_place;
 
-      @ManyToOne
+    @JsonIgnore
+    @ManyToOne
     Event event;
-      @ManyToOne
+
+    @JsonIgnore
+    @ManyToOne
     User user;
 }
