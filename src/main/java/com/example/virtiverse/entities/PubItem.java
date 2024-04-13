@@ -38,6 +38,4 @@ public class PubItem implements Serializable  {
     @JsonIgnore
     private Set<Commentaire> Commentaire;
 
-    @OneToMany (mappedBy="pub")
-    private Set<LikeItem> Likeitem;
 }
