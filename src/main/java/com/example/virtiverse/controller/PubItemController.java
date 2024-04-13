@@ -47,4 +47,22 @@ public class PubItemController {
         List<PubItem> pubItems = iPubItemService.getPubItemsSortedByPrice();
         return new ResponseEntity<>(pubItems, HttpStatus.OK);
     }
+
+    @GetMapping("/filterByPrice")
+    public ResponseEntity<List<PubItem>> filterByPriceRange(
+            @RequestParam float minPrice,
+            @RequestParam float maxPrice) {
+        List<PubItem> filteredItems = iPubItemService.filterByPriceRange(minPrice, maxPrice);
+        return new ResponseEntity<>(filteredItems, HttpStatus.OK);
+    }
+
+    @GetMapping("/sortByEtatAsc")
+    public List<PubItem> getPubItemsSortedByEtatAsc() {
+        return iPubItemService.getPubItemsSortedByEtatAsc();
+    }
+
+    @GetMapping("/sortByEtatDesc")
+    public List<PubItem> getPubItemsSortedByEtatDesc() {
+        return iPubItemService.getPubItemsSortedByEtatDesc();
+    }
 }

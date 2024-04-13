@@ -14,4 +14,10 @@ public interface IPubItemService {
     List<PubItem> searchPubItems(String keyword);
 
     List<PubItem> getPubItemsSortedByPrice();
+
+    List<PubItem> filterByPriceRange(float minPrice, float maxPrice);
+
+    List<PubItem> getPubItemsSortedByEtatAsc();
+
+    List<PubItem> getPubItemsSortedByEtatDesc();
 }

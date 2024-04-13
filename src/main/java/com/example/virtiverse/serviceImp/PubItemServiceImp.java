@@ -7,8 +7,10 @@ import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import javax.validation.Valid;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -16,12 +18,22 @@ public class PubItemServiceImp implements IPubItemService {
 
     PubItemRepository pubItemRepository;
     @Override
-    public PubItem addPubitem(PubItem pubItem) {
+    public PubItem addPubitem(@Valid PubItem pubItem) {
+        if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {
+            throw new IllegalArgumentException("Description is required");
+        }
+        if (pubItem.getPrix() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
         return pubItemRepository.save(pubItem);
     }
 
     @Override
-    public PubItem updatePubitem(PubItem pubItem) {
+    public PubItem updatePubitem(@Valid PubItem pubItem) {
+
+        if (pubItem.getPrix() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
         return pubItemRepository.save(pubItem);
     }
 
@@ -44,5 +56,18 @@ public class PubItemServiceImp implements IPubItemService {
     public List<PubItem> getPubItemsSortedByPrice() {
         Sort sortByPrice = Sort.by("prix").ascending();
         return pubItemRepository.findAll(sortByPrice);
+    }
+    public List<PubItem> filterByPriceRange(float minPrice, float maxPrice) {
+        return pubItemRepository.findAll().stream()
+                .filter(pubItem -> pubItem.getPrix() >= minPrice && pubItem.getPrix() <= maxPrice)
+                .collect(Collectors.toList());
+    }
+
+    public List<PubItem> getPubItemsSortedByEtatAsc() {
+        return pubItemRepository.findByOrderByEtatAsc();
+    }
+
+    public List<PubItem> getPubItemsSortedByEtatDesc() {
+        return pubItemRepository.findAllByOrderByEtatDesc();
     }
 }
