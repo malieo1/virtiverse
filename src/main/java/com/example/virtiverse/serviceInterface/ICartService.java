@@ -16,7 +16,7 @@ public interface ICartService {
 
     void addItemToCart(Long cartId, PubItem pubItem);
 
-    Cart createCartForUser(String userName);
+    Cart createCartForUser(Integer id);
 
     void removeItemFromCart(Long cartId, Long itemId);
 }

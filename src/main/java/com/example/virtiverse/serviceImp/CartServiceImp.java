@@ -53,15 +53,15 @@ public class CartServiceImp implements ICartService {
 
 
     @Override
-    public Cart createCartForUser(String userName) {
-        Optional<User> userOptional = userRepository.findById(userName);
+    public Cart createCartForUser(Integer id) {
+        Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Cart cart = new Cart();
             cart.setUser(user);
             return cartRepository.save(cart);
         } else {
-            throw new IllegalArgumentException("User not found with username: " + userName);
+            throw new IllegalArgumentException("User not found with username: " + id);
         }
     }
 

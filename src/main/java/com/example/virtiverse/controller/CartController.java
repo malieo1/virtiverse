@@ -29,9 +29,9 @@ public class CartController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/user/{userName}")
-    public ResponseEntity<Cart> createCartForUser(@PathVariable String userName) {
-        Cart cart = iCartService.createCartForUser(userName);
+    @PostMapping("/user/{id}")
+    public ResponseEntity<Cart> createCartForUser(@PathVariable Integer id) {
+        Cart cart = iCartService.createCartForUser(id);
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
     }
 
