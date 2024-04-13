@@ -6,6 +6,7 @@ import com.example.virtiverse.serviceInterface.IEventService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -34,5 +35,21 @@ public class ServiceEvent implements IEventService {
 
     @Override
     public void removeEvent(Long id_event) { eventRep.deleteById(id_event); }
+
+    @Override
+    public List<Event> searchEventsByName(String nom_event) {
+        return eventRep.findByNom_eventContainingIgnoreCase(nom_event);
+    }
+
+    @Override
+    public List<Event> findAllOrderByPrixDesc() {
+        return eventRep.findAllOrderByPrixEventDesc();
+    }
+
+    @Override
+    public List<Event> findByDateDebut_eventEquals(LocalDate dateDebut) {
+        return eventRep.findByDateDebut_eventEquals(dateDebut);
+    }
+
 
 }
