@@ -4,6 +4,9 @@ import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.serviceInterface.IEventService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -30,26 +33,43 @@ public class EventController {
     public Event updateEvent(@RequestBody Event event) {
         return eventService.updateEvent(event);
     }
-    @GetMapping("/getById/{id_event}")
-    public Event retrieveEvent(@PathVariable ("id_event") Long id_event) {
-        return eventService.retrieveEvent(id_event);
+    @GetMapping("/getById/{idEvent}")
+    public Event retrieveEvent(@PathVariable ("idEvent") Long idEvent) {
+        return eventService.retrieveEvent(idEvent);
     }
-    @DeleteMapping("/DeleteById/{id_event}")
-    public void removeEvent(@PathVariable("id_event") Long id_event) {
-        eventService.removeEvent(id_event);
+    @DeleteMapping("/DeleteById/{idEvent}")
+    public void removeEvent(@PathVariable("idEvent") Long idEvent) {
+        eventService.removeEvent(idEvent);
     }
-    @GetMapping("/searchEventsByName/{nom_event}")
-    public List<Event> searchEventsByName(@PathVariable String nom_event) {
-        return eventService.searchEventsByName(nom_event);
+   @GetMapping("/searchEventsByName/{nomEvent}")
+    public List<Event> searchEventsByName(@PathVariable String nomEvent) {
+        return eventService.searchEventsByName(nomEvent);
     }
+
     @GetMapping("/orderByPriceDesc")
-    public List<Event> findAllOrderByPrixDesc() {
-        return eventService.findAllOrderByPrixDesc();
+    public List<Event> findAllOrderByPrixEventDesc() {
+        return eventService.findAllOrderByPrixEventDesc();
     }
 
 
-    @GetMapping("/findByStartDateEquals/{date}")
-    public List<Event> findByDateDebut_eventEquals(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return eventService.findByDateDebut_eventEquals(date);
+    @GetMapping("/findByDateDebutEvent/{dateDebutEvent}")
+    public List<Event> findByDateDebutEvent(@PathVariable("dateDebutEvent") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateDebutEvent) {
+        return eventService.findByDateDebutEvent(dateDebutEvent);
+    }
+    @GetMapping("/qrCode/{idEvent}")
+    public ResponseEntity<byte[]> generateQRCodeForEvent(@PathVariable long idEvent) {
+        Event event = eventService.retrieveEvent(idEvent);
+        if (event == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Générer le code QR pour l'événement
+        byte[] qrCodeBytes = eventService.generateQRCodeForEvent(event);
+        if (qrCodeBytes == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        // Retourner le code QR en tant que réponse avec le type de contenu approprié
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(qrCodeBytes);
     }
 }

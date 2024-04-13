@@ -18,10 +18,10 @@ import java.io.Serializable;
 public class Participation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id_participation;
+     Long idParticipation;
       long numtel;
       String email;
-      int nb_place;
+      int nbPlace;
 
     @JsonIgnore
     @ManyToOne

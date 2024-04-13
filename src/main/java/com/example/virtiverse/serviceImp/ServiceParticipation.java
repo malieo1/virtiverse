@@ -35,21 +35,21 @@ public class ServiceParticipation implements IParticipationService {
     }
 
     @Override
-    public Participation retrieveParticipations(Long id_participation) {
-        return participationRep.findById(id_participation).orElse(null);
+    public Participation retrieveParticipations(Long idParticipation) {
+        return participationRep.findById(idParticipation).orElse(null);
     }
 
     @Override
-    public void removeParticipations(Long id_participation) {
-        participationRep.deleteById(id_participation);
+    public void removeParticipations(Long idParticipation) {
+        participationRep.deleteById(idParticipation);
     }
 
     @Override
-    public Participation addParticipationWithIds(Participation participation, Long id_event, String userName) {
-        Event event = eventRep.findById(id_event).orElse(null);
+    public Participation addParticipationWithIds(Participation participation, Long idEvent, String userName) {
+        Event event = eventRep.findById(idEvent).orElse(null);
         User user = userRep.findByUserName(userName);
         if (event == null) {
-            throw new IllegalArgumentException("Event with id " + id_event + " not found");
+            throw new IllegalArgumentException("Event with id " + idEvent + " not found");
         }
 
         if (user == null) {

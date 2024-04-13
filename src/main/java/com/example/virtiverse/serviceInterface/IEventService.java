@@ -9,9 +9,10 @@ public interface IEventService {
     List<Event> retrieveAllEvents();
     Event addEvent(Event event);
     Event updateEvent(Event event);
-    Event retrieveEvent(Long id_event);
-    void removeEvent (Long id_event);
-    List<Event> searchEventsByName(String nom_event);
-    List<Event> findAllOrderByPrixDesc();
-    List<Event> findByDateDebut_eventEquals(LocalDate dateDebut);
+    Event retrieveEvent(Long idEvent);
+    void removeEvent (Long idEvent);
+   List<Event> searchEventsByName(String nomEvent);
+  List<Event> findAllOrderByPrixEventDesc();
+  List<Event> findByDateDebutEvent(LocalDate dateDebutEvent);
+  byte[] generateQRCodeForEvent(Event event);
 }

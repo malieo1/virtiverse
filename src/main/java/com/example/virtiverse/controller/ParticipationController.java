@@ -30,17 +30,17 @@ public class ParticipationController {
     public Participation updateParticipations(@RequestBody Participation participation) {
         return participationService.updateParticipations(participation);
     }
-    @GetMapping("/getById/{id_participation}")
-    public Participation retrieveParticipations(@PathVariable ("id_participation") Long id_participation) {
-        return participationService.retrieveParticipations(id_participation);
+    @GetMapping("/getById/{idParticipation}")
+    public Participation retrieveParticipations(@PathVariable ("idParticipation") Long idParticipation) {
+        return participationService.retrieveParticipations(idParticipation);
     }
-    @DeleteMapping("/DeleteById/{id_participation}")
-    public void removeParticipations(@PathVariable ("id_participation") Long id_participation) {
-        participationService.removeParticipations(id_participation);
+    @DeleteMapping("/DeleteById/{idParticipation}")
+    public void removeParticipations(@PathVariable ("idParticipation") Long idParticipation) {
+        participationService.removeParticipations(idParticipation);
     }
-    @PostMapping("/addParticipation/{id_event}/{userName}")
-    public ResponseEntity<String> addParticipationWithIds(@RequestBody Participation participation, @PathVariable Long id_event, @PathVariable String userName) {
-        Participation savedParticipation = participationService.addParticipationWithIds(participation, id_event, userName);
+    @PostMapping("/addParticipation/{idEvent}/{userName}")
+    public ResponseEntity<String> addParticipationWithIds(@RequestBody Participation participation, @PathVariable Long idEvent, @PathVariable String userName) {
+        Participation savedParticipation = participationService.addParticipationWithIds(participation, idEvent, userName);
 
         if (savedParticipation == null) {
             return ResponseEntity.badRequest().body("Error: Event or User not found");

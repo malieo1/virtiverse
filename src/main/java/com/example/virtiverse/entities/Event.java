@@ -21,16 +21,16 @@ import java.util.Set;
 public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long id_event;
-     String nom_event;
-     String organisateur_event;
-     String description_event;
-     String lieu_event;
-     LocalDate dateDebut_event;
-     LocalDate dateFin_event;
-     float prix_event;
-     int capacite_event;
-     String image_event;
+     Long idEvent;
+     String nomEvent;
+     String organisateurEvent;
+     String descriptionEvent;
+     String lieuEvent;
+    LocalDate dateDebutEvent;
+    LocalDate dateFinEvent;
+     float prixEvent;
+     int capaciteEvent;
+     String imageEvent;
 
     @ManyToOne
     @JsonIgnore
