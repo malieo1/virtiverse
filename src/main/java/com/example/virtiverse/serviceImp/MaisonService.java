@@ -35,4 +35,25 @@ public class MaisonService implements IMaison {
     public void deleteMaison(Long id_maison) {
         maisonRepository.deleteById(id_maison);
     }
+    @Override
+    public List<Maison> searchMaisonsByAdresse(String adresse) {
+        return maisonRepository.findByAdresse(adresse);
+    }
+
+    @Override
+    public List<Maison> findAllOrderByPrixDesc() {
+        return maisonRepository.findAllOrderByPrixDesc();
+    }
+
+    @Override
+    public List<Maison> filtrerParPrix(float prixMin, float prixMax) {
+        return maisonRepository.findAllByPrixIsBetween(prixMin,prixMax);
+    }
+
+    @Override
+    public List<Maison> findAllOrderByPrixAsc() {
+        return maisonRepository.findAllOrderByPrixAsc();
+    }
+
+
 }

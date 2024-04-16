@@ -3,6 +3,7 @@ package com.example.virtiverse.controller;
 import com.example.virtiverse.entities.ContratLocation;
 import com.example.virtiverse.serviceImp.ContratLocationService;
 import lombok.AllArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,12 @@ public class ContratLocationController {
         return contratLocationService.getAllContratsLocation();
     }
     @PostMapping("/addContratLocation")
-    public ContratLocation addContratLocation(@RequestBody ContratLocation contratLocation ,@RequestParam Long id_maison) {
+    public ContratLocation addContratLocation(@Validated @RequestBody ContratLocation contratLocation , @RequestParam Long id_maison) {
         return contratLocationService.addContratLocation(contratLocation,id_maison);
     }
 
     @PutMapping("/updateContratLocation/{id_location}")
-    public ContratLocation updateContrat(@RequestBody ContratLocation contratLocation,@PathVariable("id_location") Long id_location ,@RequestParam Long id_maison ){
+    public ContratLocation updateContrat(@Validated @RequestBody ContratLocation contratLocation,@PathVariable("id_location") Long id_location ,@RequestParam Long id_maison ){
         ContratLocation c=contratLocationService.getContratLocation(id_location);
         contratLocation.setId_contrat(c.getId_contrat());
         return contratLocationService.updateContratLocation(contratLocation,id_maison);

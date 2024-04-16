@@ -11,4 +11,9 @@ public interface IMaison {
     Maison updateMaison (Maison maison);
     Maison getMaison(Long id_maison);
     void deleteMaison (Long id_maison);
+    List<Maison> searchMaisonsByAdresse(String adresse);
+    List<Maison> findAllOrderByPrixAsc();
+    List<Maison> findAllOrderByPrixDesc();
+    List<Maison> filtrerParPrix(float prixMin,float prixMax);
+
 }

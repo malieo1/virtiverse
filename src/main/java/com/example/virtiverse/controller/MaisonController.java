@@ -7,10 +7,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/maison")
 @AllArgsConstructor
+
 public class MaisonController {
     MaisonService maisonService;
     @GetMapping("/list")
@@ -39,4 +40,21 @@ public class MaisonController {
     public void deleteMaison( @PathVariable ("id_maison")Long id_maison) {
         maisonService.deleteMaison(id_maison);
     }
+    @GetMapping("/search/{adresse}")
+    public List<Maison> searchMaisonsByAdresse(@PathVariable String adresse) {
+        return maisonService.searchMaisonsByAdresse(adresse);
+    }
+    @GetMapping("/orderByPrixAsc")
+    public List<Maison> findAllOrderByPrixAsc() {
+        return maisonService.findAllOrderByPrixAsc();
+    }
+    @GetMapping("/orderByPrixDesc")
+    public List<Maison> findAllOrderByPrixDesc() {
+        return maisonService.findAllOrderByPrixDesc();
+    }
+    @GetMapping("/filtrerParPrix")
+    public List<Maison> filtrerParPrix(@RequestParam float prixMin,@RequestParam float prixMax) {
+        return maisonService.filtrerParPrix(prixMin,prixMax);
+    }
+
 }
