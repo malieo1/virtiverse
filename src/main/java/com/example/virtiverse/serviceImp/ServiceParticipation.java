@@ -36,11 +36,17 @@ public class ServiceParticipation implements IParticipationService {
         if (user == null) {
             throw new IllegalArgumentException("User with username " + userName + " not found");
         }
-
         // Vérifier la capacité restante de l'événement
         int capaciteRestante = event.getCapaciteEvent() - participation.getNbPlace();
-
+        long numTel = participation.getNumtel();
         if (capaciteRestante >= 0) {
+            if (!participationRep.isValidTunisianPhoneNumber(Long.toString(numTel))) {
+                throw new IllegalArgumentException("Le numéro de téléphone doit être un numéro tunisien valide.");
+            }
+            // Valider l'adresse e-mail
+            if (!participationRep.isValidEmail(participation.getEmail())) {
+                throw new IllegalArgumentException("L'adresse e-mail doit être une adresse valide.");
+            }
             // Mettre à jour la capacité restante de l'événement
             event.setCapaciteEvent(capaciteRestante);
             eventRep.save(event);
@@ -54,7 +60,6 @@ public class ServiceParticipation implements IParticipationService {
         }
         else {
             throw new IllegalArgumentException("Il ne reste que " + event.getCapaciteEvent() + " places pour cet événement.");
-
         }
     }
 

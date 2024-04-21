@@ -8,6 +8,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,9 +27,59 @@ public class ServiceEvent implements IEventService {
     public List<Event> retrieveAllEvents() {
         return eventRep.findAll();
     }
-
     @Override
     public Event addEvent(Event event) {
+
+        List<String> errors = new ArrayList<>();
+
+        // Vérification des champs obligatoires
+        if (StringUtils.isEmpty(event.getNomEvent())) {
+            errors.add("Le champ 'Nom de l'événement' est obligatoire.");
+        }
+        if (StringUtils.isEmpty(event.getDescriptionEvent())) {
+            errors.add("Le champ 'Description de l'événement' est obligatoire.");
+        }
+        if (StringUtils.isEmpty(event.getOrganisateurEvent())) {
+            errors.add("Le champ 'Organisateur de l'événement' est obligatoire.");
+        }
+        if (StringUtils.isEmpty(event.getLieuEvent())) {
+            errors.add("Le champ 'Lieu de l'événement' est obligatoire.");
+        }
+        if (StringUtils.isEmpty(event.getImageEvent())) {
+            errors.add("Le champ 'Image de l'événement' est obligatoire.");
+        }
+        if (event.getDateDebutEvent() == null) {
+            errors.add("Le champ 'Date de début de l'événement' est obligatoire.");
+        }
+        if (event.getDateFinEvent() == null) {
+            errors.add("Le champ 'Date de fin de l'événement' est obligatoire.");
+        }
+
+        // Vérification du prix et de la capacité
+        if (event.getPrixEvent() < 0) {
+            errors.add("Le prix ne peut pas être négatif.");
+        }
+        if (event.getCapaciteEvent() < 0) {
+            errors.add("La capacité ne peut pas être négative.");
+        }
+
+        // Vérification de la date de fin après la date de début
+        if (event.getDateDebutEvent() != null && event.getDateFinEvent() != null &&
+                event.getDateFinEvent().isBefore(event.getDateDebutEvent())) {
+            errors.add("La date de fin ne peut pas être antérieure à la date de début.");
+        }
+
+        // Vérification de la date de début après la date actuelle
+        if (event.getDateDebutEvent() != null && event.getDateDebutEvent().isBefore(LocalDate.now())) {
+            errors.add("La date de début ne peut pas être antérieure à la date actuelle.");
+        }
+
+        // S'il y a des erreurs, les lancer
+        if (!errors.isEmpty()) {
+            throw new IllegalArgumentException("Erreurs de validation :\n" + String.join("\n", errors));
+        }
+
+        // Enregistrer l'événement s'il n'y a pas d'erreurs
         return eventRep.save(event);
     }
 
@@ -90,5 +142,34 @@ public class ServiceEvent implements IEventService {
             return null;
         }
     }
+
+     /* @Override
+    public Event addEvent(Event event) {
+
+        //champs non vide
+        if (event.getNomEvent().isEmpty() || event.getDescriptionEvent().isEmpty() ||
+                event.getOrganisateurEvent().isEmpty() || event.getLieuEvent().isEmpty() ||
+                event.getImageEvent().isEmpty() || event.getDateDebutEvent() == null ||
+                event.getDateFinEvent() == null) {
+            throw new IllegalArgumentException("Tous les champs obligatoires doivent être renseignés.");
+        }
+        //prix et capacite non negatifs
+        if (event.getPrixEvent() < 0) {
+            throw new IllegalArgumentException("Le prix ne peut pas pas être négatif.");
+        }
+        if (event.getCapaciteEvent() < 0) {
+            throw new IllegalArgumentException("La capacité ne peut pas pas être négative.");
+        }
+        //date de fin pas avant la date de début
+        if (event.getDateFinEvent().isBefore(event.getDateDebutEvent())) {
+            throw new IllegalArgumentException("La date de fin ne peut pas être antérieure à la date de début.");
+        }
+
+        //date de début pas avant la date actuelle
+        if (event.getDateDebutEvent().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La date de début ne peut pas être antérieure à la date actuelle.");
+        }
+        return eventRep.save(event);
+    }*/
 
 }

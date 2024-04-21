@@ -25,9 +25,13 @@ public class EventController {
         return eventService.retrieveAllEvents();
     }
     @PostMapping("/addEvent")
-    public Event addEvent(@RequestBody Event event) {
-
-        return eventService.addEvent(event);
+    public ResponseEntity<String> addEvent(@RequestBody Event event) {
+        try {
+            Event addedEvent = eventService.addEvent(event);
+            return ResponseEntity.ok("Evenement ajouté avec succès.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     @PutMapping("/updateEvent")
     public Event updateEvent(@RequestBody Event event) {
