@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface IParticipationService {
     List<Participation> retrieveAllParticipations();
-    Participation addParticipations(Participation participation);
+    Participation addParticipationWithIds(Participation participation, Long idEvent, String userName);
     Participation updateParticipations(Participation participation);
     Participation retrieveParticipations(Long idParticipation);
     void removeParticipations (Long idParticipation);
-    Participation addParticipationWithIds(Participation participation, Long idEvent, String userName);
 
 
 }
