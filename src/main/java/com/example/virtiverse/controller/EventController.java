@@ -1,6 +1,8 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Event;
+import com.example.virtiverse.repository.UserRep;
+import com.example.virtiverse.serviceInterface.IEmailEventService;
 import com.example.virtiverse.serviceInterface.IEventService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,15 +21,32 @@ import java.util.List;
 @CrossOrigin("*")
 public class EventController {
     IEventService eventService;
-
+    IEmailEventService emailEventService;
+    UserRep userRep;
     @GetMapping("/EventController")
     public List<Event> retrieveAllEvents() {
         return eventService.retrieveAllEvents();
     }
-    @PostMapping("/addEvent")
-    public ResponseEntity<String> addEvent(@RequestBody Event event) {
+    @GetMapping("/approvedEvents")
+    public List<Event> retrieveApprovedEvents() {
+        return eventService.retrieveApprovedEvents();
+    }
+
+    @PutMapping("/approveEvent/{idEvent}")
+    public ResponseEntity<String> approveEvent(@PathVariable Long idEvent) {
         try {
-            Event addedEvent = eventService.addEvent(event);
+            Event approvedEvent = eventService.approveEvent(idEvent);
+          //  emailEventService.sendSimpleMessage();
+            return ResponseEntity.ok("Evènement approuvé avec succès.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/addEvent/{userName}")
+    public ResponseEntity<String> addEvent(@RequestBody Event event, @PathVariable String userName) {
+        try {
+            Event addedEvent = eventService.addEvent(event,userName);
             return ResponseEntity.ok("Evenement ajouté avec succès.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

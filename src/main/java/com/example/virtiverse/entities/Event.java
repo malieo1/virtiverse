@@ -31,6 +31,8 @@ public class Event implements Serializable {
      float prixEvent;
      int capaciteEvent;
      String imageEvent;
+    String statut;
+
 
     @ManyToOne
     @JsonIgnore

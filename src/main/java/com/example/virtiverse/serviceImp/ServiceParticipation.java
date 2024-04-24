@@ -29,6 +29,7 @@ public class ServiceParticipation implements IParticipationService {
         Event event = eventRep.findById(idEvent).orElse(null);
         User user = userRep.findByUserName(userName);
 
+
         if (event == null) {
             throw new IllegalArgumentException("Event with id " + idEvent + " not found");
         }
@@ -77,5 +78,6 @@ public class ServiceParticipation implements IParticipationService {
     public void removeParticipations(Long idParticipation) {
         participationRep.deleteById(idParticipation);
     }
+
 
 }

@@ -1,8 +1,14 @@
 package com.example.virtiverse.serviceImp;
-
+//import com.example.virtiverse.entities.CloudStorageConfig;
 import com.example.virtiverse.entities.Event;
+import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.EventRep;
+import com.example.virtiverse.repository.UserRep;
 import com.example.virtiverse.serviceInterface.IEventService;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Storage;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -10,6 +16,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -23,13 +31,28 @@ import java.util.List;
 @AllArgsConstructor
 public class ServiceEvent implements IEventService {
     EventRep eventRep;
+    UserRep userRep;
     @Override
     public List<Event> retrieveAllEvents() {
         return eventRep.findAll();
     }
-    @Override
-    public Event addEvent(Event event) {
 
+    @Override
+    public List<Event> retrieveApprovedEvents() {
+        return eventRep.findByStatut("Approuvé");
+    }
+/*
+    com.google.cloud.storage.Storage storage;
+    @Value("${google.cloud.storage.bucketName}")
+    //private String bucketName;
+
+ */
+    @Override
+    public Event addEvent(Event event, String userName) {
+        User user = userRep.findByUserName(userName);
+        if (user == null) {
+            throw new IllegalArgumentException("User with username " + userName + " not found");
+        }
         List<String> errors = new ArrayList<>();
 
         // Vérification des champs obligatoires
@@ -80,6 +103,36 @@ public class ServiceEvent implements IEventService {
         }
 
         // Enregistrer l'événement s'il n'y a pas d'erreurs
+        event.setUser(user);
+        event.setStatut("En attente");
+
+        /*
+        // Téléchargez l'image de l'événement dans Google Cloud Storage
+        BlobId blobId = BlobId.of(bucketName, "images/" + event.getImageEvent().getOriginalFilename());
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+        Blob blob = storage.create(blobInfo, event.getImageEvent().getBytes());
+
+        // Enregistrez l'événement avec l'URL de l'image dans le cloud
+        event.setImageEvent(blob.getMediaLink());
+*/
+        // Enregistrez l'événement dans la base de données ou effectuez d'autres opérations nécessaires
+
+
+        return eventRep.save(event);
+    }
+
+    @Override
+    public Event approveEvent(Long idEvent) {
+        Event event = eventRep.findById(idEvent)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+
+        // Vérifiez si l'événement est en attente
+        if (!event.getStatut().equals("En attente")) {
+            throw new IllegalArgumentException("L'évènement n'est pas en attente.");
+        }
+        // Mettez à jour le statut de l'événement à "Approuvé"
+        event.setStatut("Approuvé");
+        // Enregistrez les modifications dans la base de données
         return eventRep.save(event);
     }
 

@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface IEventService {
     List<Event> retrieveAllEvents();
-    Event addEvent(Event event);
+    List<Event> retrieveApprovedEvents();
+    Event addEvent(Event event, String userName);
+    Event approveEvent(Long idEvent);
     Event updateEvent(Event event);
     Event retrieveEvent(Long idEvent);
     void removeEvent (Long idEvent);
