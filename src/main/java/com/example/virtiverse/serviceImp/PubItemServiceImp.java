@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,10 @@ public class PubItemServiceImp implements IPubItemService {
         if (pubItem.getPrix() <= 0) {
             throw new IllegalArgumentException("Price must be greater than 0");
         }
+        if (String.valueOf(pubItem.getNumTelephone()).length() > 8) {
+            throw new IllegalArgumentException("NumTelephone cannot exceed 6 numbers");
+        }
+        pubItem.setDatePost(new Date());
         return pubItemRepository.save(pubItem);
     }
 
@@ -49,14 +54,20 @@ public class PubItemServiceImp implements IPubItemService {
 
 
     @Override
+    //public List<PubItem> searchPubItems(String keyword) {
+       // return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
+    //}
+
     public List<PubItem> searchPubItems(String keyword) {
-        return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
+        return pubItemRepository.searchPubItems(keyword);
     }
 
     public List<PubItem> getPubItemsSortedByPrice() {
         Sort sortByPrice = Sort.by("prix").ascending();
         return pubItemRepository.findAll(sortByPrice);
     }
+
+
     public List<PubItem> filterByPriceRange(float minPrice, float maxPrice) {
         return pubItemRepository.findAll().stream()
                 .filter(pubItem -> pubItem.getPrix() >= minPrice && pubItem.getPrix() <= maxPrice)

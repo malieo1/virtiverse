@@ -21,7 +21,7 @@ public class PubItem implements Serializable  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pub;
 
-
+    private String name ;
     private String description;
     private String image;
     private float prix;
