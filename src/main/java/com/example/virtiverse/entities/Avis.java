@@ -23,9 +23,8 @@ public class Avis {
     String description;
     LocalDate date_avis;
     int statut;
-    @Enumerated
-    Priorite priorite;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     Covoiturage covoiturage;
     @JsonIgnore

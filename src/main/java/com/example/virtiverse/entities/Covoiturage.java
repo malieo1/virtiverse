@@ -7,6 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -26,8 +28,11 @@ public class Covoiturage {
      String lieu_depart;
      String destination;
      String description;
-     @JsonIgnore
-    @ManyToOne (cascade = CascadeType.ALL)
-        User iduser;
 
+     @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+     List<User> users;
+
+    @ManyToMany (cascade = CascadeType.ALL)
+    List<User> reservations;
 }
