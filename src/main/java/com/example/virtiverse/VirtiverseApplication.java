@@ -8,6 +8,7 @@ public class VirtiverseApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(VirtiverseApplication.class, args);
+
     }
 
 }
