@@ -2,6 +2,7 @@ package com.example.virtiverse.serviceInterface;
 
 import com.example.virtiverse.entities.PubItem;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface IPubItemService {
@@ -20,4 +21,6 @@ public interface IPubItemService {
     List<PubItem> getPubItemsSortedByEtatAsc();
 
     List<PubItem> getPubItemsSortedByEtatDesc();
+
+    PubItem addPubitemm(@Valid PubItem pubItem, Integer id);
 }

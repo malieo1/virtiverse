@@ -30,5 +30,4 @@ public class Cart implements Serializable {
     private List<PubItem> pubItems;
 
 
-
 }

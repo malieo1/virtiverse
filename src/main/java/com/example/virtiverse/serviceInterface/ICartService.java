@@ -5,6 +5,7 @@ import com.example.virtiverse.entities.Commentaire;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.entities.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICartService {
@@ -19,4 +20,11 @@ public interface ICartService {
     Cart createCartForUser(Integer id);
 
     void removeItemFromCart(Long cartId, Long itemId);
+
+    List<PubItem> getProductsInCart(Long cartId);
+
+    List<Cart> getAllCartsWithProducts();
+
+    void deleteCart (Long id);
 }
+

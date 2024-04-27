@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/cart")
 @AllArgsConstructor
+@CrossOrigin
 public class CartController {
 
     ICartService iCartService;
@@ -51,5 +53,23 @@ public class CartController {
     public ResponseEntity<String> removeItemFromCart(@PathVariable Long cartId, @PathVariable Long id_pub) {
         iCartService.removeItemFromCart(cartId, id_pub);
         return new ResponseEntity<>("Item removed from cart", HttpStatus.OK);
+    }
+
+    @GetMapping("/{cartId}/items")
+    public ResponseEntity<List<PubItem>> getProductsInCart(@PathVariable Long cartId) {
+        List<PubItem> products = iCartService.getProductsInCart(cartId);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/allcart")
+    public ResponseEntity<List<Cart>> getAllCartsWithProducts() {
+        List<Cart> carts = iCartService.getAllCartsWithProducts();
+        return new ResponseEntity<>(carts, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<String> deleteCart(@PathVariable Long cartId) {
+        iCartService.deleteCart(cartId);
+        return ResponseEntity.ok("Cart deleted successfully");
     }
 }

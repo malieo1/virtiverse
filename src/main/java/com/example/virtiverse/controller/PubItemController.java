@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -65,5 +66,11 @@ public class PubItemController {
     @GetMapping("/sortByEtatDesc")
     public List<PubItem> getPubItemsSortedByEtatDesc() {
         return iPubItemService.getPubItemsSortedByEtatDesc();
+    }
+
+    @PostMapping ("/addPubItemm")
+    public ResponseEntity<PubItem> addPubItemm(@Valid @RequestBody PubItem pubItem, @RequestParam Integer id) {
+        PubItem addedPubItem = iPubItemService.addPubitemm(pubItem, id);
+        return new ResponseEntity<>(addedPubItem, HttpStatus.CREATED);
     }
 }

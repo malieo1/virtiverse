@@ -1,7 +1,6 @@
 package com.example.virtiverse.serviceImp;
 
 import com.example.virtiverse.entities.Cart;
-import com.example.virtiverse.entities.Commentaire;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.CartRepository;
@@ -9,9 +8,12 @@ import com.example.virtiverse.repository.PubItemRepository;
 import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.ICartService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,5 +86,33 @@ public class CartServiceImp implements ICartService {
         }
     }
 
+
+    public List<PubItem> getProductsInCart(Long cartId) {
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            return new ArrayList<>(cart.getPubItems());
+        } else {
+            throw new IllegalArgumentException("Cart not found with id: " + cartId);
+        }
+    }
+
+
+    @Override
+    public List<Cart> getAllCartsWithProducts() {
+        return cartRepository.findAll();
+    }
+
+    @Override
+    public void deleteCart(Long cartId) {
+        Optional<Cart> cartOptional = cartRepository.findById(cartId);
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            cart.getPubItems().clear(); // Detach products from the cart
+            cartRepository.delete(cart); // Delete the cart
+        } else {
+            throw new IllegalArgumentException("Cart not found with id: " + cartId);
+        }
+    }
 
 }

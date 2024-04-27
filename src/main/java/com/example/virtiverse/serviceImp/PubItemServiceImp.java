@@ -2,7 +2,9 @@ package com.example.virtiverse.serviceImp;
 
 
 import com.example.virtiverse.entities.PubItem;
+import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.PubItemRepository;
+import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class PubItemServiceImp implements IPubItemService {
 
     PubItemRepository pubItemRepository;
+    UserRepository userRepository;
     @Override
     public PubItem addPubitem(@Valid PubItem pubItem) {
         if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {
@@ -80,5 +83,30 @@ public class PubItemServiceImp implements IPubItemService {
 
     public List<PubItem> getPubItemsSortedByEtatDesc() {
         return pubItemRepository.findAllByOrderByEtatDesc();
+    }
+
+
+
+
+    @Override
+    public PubItem addPubitemm(@Valid PubItem pubItem, Integer id) {
+        if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {
+            throw new IllegalArgumentException("Description is required");
+        }
+        if (pubItem.getPrix() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
+        if (String.valueOf(pubItem.getNumTelephone()).length() > 8) {
+            throw new IllegalArgumentException("NumTelephone cannot exceed 8 numbers");
+        }
+        // Find the user by userId
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        // Set the user for the pubItem
+        pubItem.setUser(user);
+        pubItem.setDatePost(new Date());
+
+        return pubItemRepository.save(pubItem);
     }
 }
