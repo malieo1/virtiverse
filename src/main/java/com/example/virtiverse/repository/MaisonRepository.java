@@ -13,4 +13,6 @@ public interface MaisonRepository extends JpaRepository <Maison,Long> {
     @Query("SELECT m FROM Maison m ORDER BY m.prix DESC")
     List<Maison> findAllOrderByPrixDesc();
     List<Maison> findAllByPrixIsBetween(float p1,float p2);
+
+    List<Maison> findByUserUserName(String userName);
 }

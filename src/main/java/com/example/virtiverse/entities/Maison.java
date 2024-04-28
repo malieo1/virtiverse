@@ -1,6 +1,5 @@
 package com.example.virtiverse.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,6 +24,14 @@ public class Maison implements Serializable {
     @ElementCollection
     List <String> images;
     @OneToMany(mappedBy = "m")
-    @JsonIgnore
+
     List<ContratLocation> contratsLocation;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    User user;
+
+    @ManyToMany (cascade = CascadeType.ALL)
+    List<User> demandeurs;
+
+
 }
