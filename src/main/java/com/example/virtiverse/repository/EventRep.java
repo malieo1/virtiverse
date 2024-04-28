@@ -1,6 +1,7 @@
 package com.example.virtiverse.repository;
 
 import com.example.virtiverse.entities.Event;
+import com.example.virtiverse.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,6 +17,8 @@ public interface EventRep extends JpaRepository<Event,Long> {
     List<Event> findAllOrderByPrixEventDesc();
     List<Event> findByDateDebutEvent(LocalDate dateDebutEvent);
     List<Event> findByStatut(String statut);
+
+    List<Event> findByUserUserName(String userName);
 
 
 

@@ -33,29 +33,33 @@ public class EventController {
     }
 
     @PutMapping("/approveEvent/{idEvent}")
-    public ResponseEntity<String> approveEvent(@PathVariable Long idEvent) {
-        try {
+    public Event approveEvent(@PathVariable Long idEvent) {
             Event approvedEvent = eventService.approveEvent(idEvent);
           //  emailEventService.sendSimpleMessage();
-            return ResponseEntity.ok("Evènement approuvé avec succès.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return approvedEvent;
+    }
+    @PutMapping("/rejectEvent/{idEvent}")
+    public Event RejectEvent(@PathVariable Long idEvent) {
+        Event rejectedEvent = eventService.RejectEvent(idEvent);
+        //  emailEventService.sendSimpleMessage();
+        return rejectedEvent;
+    }
+
+    @GetMapping("/getEventsUser/{userName}")
+    public List<Event> retrieveAllEventsByUser(@PathVariable String userName) {
+        return eventService.retrieveAllEventsByUser(userName);
     }
 
     @PostMapping("/addEvent/{userName}")
-    public ResponseEntity<String> addEvent(@RequestBody Event event, @PathVariable String userName) {
-        try {
+    public Event addEvent(@RequestBody Event event, @PathVariable String userName) {
             Event addedEvent = eventService.addEvent(event,userName);
-            return ResponseEntity.ok("Evenement ajouté avec succès.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+          return  addedEvent;
     }
-    @PutMapping("/updateEvent")
-    public Event updateEvent(@RequestBody Event event) {
-        return eventService.updateEvent(event);
+@PutMapping("/updateEvent/{idEvent}")
+    public Event updateEvent(@PathVariable Long idEvent, @RequestBody Event updatedEvent) {
+        return eventService.updateEvent(idEvent, updatedEvent);
     }
+
     @GetMapping("/getById/{idEvent}")
     public Event retrieveEvent(@PathVariable ("idEvent") Long idEvent) {
         return eventService.retrieveEvent(idEvent);
@@ -85,13 +89,11 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.notFound().build();
         }
-
         // Générer le code QR pour l'événement
         byte[] qrCodeBytes = eventService.generateQRCodeForEvent(event);
         if (qrCodeBytes == null) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
         // Retourner le code QR en tant que réponse avec le type de contenu approprié
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(qrCodeBytes);
     }

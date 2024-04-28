@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/Participation")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class ParticipationController {
     IParticipationService participationService;
     IEmailEventService emailEventService;
@@ -26,20 +27,15 @@ public class ParticipationController {
         return participationService.retrieveAllParticipations();
     }
     @PostMapping("/addParticipation/{idEvent}/{userName}")
-    public ResponseEntity<String> addParticipationWithIds(@RequestBody Participation participation, @PathVariable Long idEvent, @PathVariable String userName) {
-        try {
-            Participation savedParticipation = participationService.addParticipationWithIds(participation, idEvent, userName);
+    public Participation addParticipationWithIds(@RequestBody Participation participation, @PathVariable Long idEvent, @PathVariable String userName) {
 
+            Participation savedParticipation = participationService.addParticipationWithIds(participation, idEvent, userName);
             // Envoyer un e-mail de confirmation à l'utilisateur
             String to = participation.getEmail();
             String subject = "Confirmation de participation";
             String text = "Votre participation à l'événement a été enregistrée avec succès.";
             emailEventService.sendConfirmationEmailWithQRCode(savedParticipation);
-
-            return ResponseEntity.ok("Participation ajoutée avec succès.");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+            return  savedParticipation;
     }
     @PutMapping("/updateParticipation")
     public Participation updateParticipations(@RequestBody Participation participation) {
@@ -54,6 +50,10 @@ public class ParticipationController {
     @DeleteMapping("/DeleteById/{idParticipation}")
     public void removeParticipations(@PathVariable("idParticipation") Long idParticipation) {
         participationService.removeParticipations(idParticipation);
+    }
+    @GetMapping("/getParticipationsUser/{userName}")
+    public List<Participation> retrieveAllParticipationsByUser(@PathVariable("userName")String userName) {
+        return participationService.retrieveAllParticipationsByUser(userName);
     }
 }
 

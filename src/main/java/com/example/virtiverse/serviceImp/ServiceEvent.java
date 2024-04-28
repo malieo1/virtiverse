@@ -38,6 +38,12 @@ public class ServiceEvent implements IEventService {
     }
 
     @Override
+    public List<Event> retrieveAllEventsByUser(String userName) {
+        return eventRep.findByUserUserName(userName);
+    }
+
+
+    @Override
     public List<Event> retrieveApprovedEvents() {
         return eventRep.findByStatut("Approuvé");
     }
@@ -137,8 +143,37 @@ public class ServiceEvent implements IEventService {
     }
 
     @Override
-    public Event updateEvent(Event event) {
+    public Event RejectEvent(Long idEvent) {
+        Event event = eventRep.findById(idEvent)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+
+        // Vérifiez si l'événement est en attente
+        if (!event.getStatut().equals("En attente")) {
+            throw new IllegalArgumentException("L'évènement n'est pas en attente.");
+        }
+        // Mettez à jour le statut de l'événement à "Approuvé"
+        event.setStatut("Rejeté");
+        // Enregistrez les modifications dans la base de données
         return eventRep.save(event);
+    }
+
+
+    @Override
+    public Event updateEvent(Long idEvent, Event updatedEvent) {
+        Event existingEvent = eventRep.findById(idEvent)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + idEvent));
+        // Mettre à jour les propriétés de l'événement existant avec les nouvelles valeurs
+        existingEvent.setNomEvent(updatedEvent.getNomEvent());
+        existingEvent.setOrganisateurEvent(updatedEvent.getOrganisateurEvent());
+        existingEvent.setDescriptionEvent(updatedEvent.getDescriptionEvent());
+        existingEvent.setLieuEvent(updatedEvent.getLieuEvent());
+        existingEvent.setDateDebutEvent(updatedEvent.getDateDebutEvent());
+        existingEvent.setDateFinEvent(updatedEvent.getDateFinEvent());
+        existingEvent.setPrixEvent(updatedEvent.getPrixEvent());
+        existingEvent.setCapaciteEvent(updatedEvent.getCapaciteEvent());
+        existingEvent.setImageEvent(updatedEvent.getImageEvent());
+        // Enregistrer les modifications dans la base de données et retourner l'événement mis à jour
+        return eventRep.save(existingEvent);
     }
 
     @Override

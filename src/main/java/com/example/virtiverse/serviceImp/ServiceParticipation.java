@@ -79,5 +79,10 @@ public class ServiceParticipation implements IParticipationService {
         participationRep.deleteById(idParticipation);
     }
 
+    @Override
+    public List<Participation> retrieveAllParticipationsByUser(String userName) {
+        return participationRep.findByUserUserName(userName);
+    }
+
 
 }
