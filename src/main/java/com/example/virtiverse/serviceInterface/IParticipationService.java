@@ -9,11 +9,12 @@ import java.util.List;
 
 public interface IParticipationService {
     List<Participation> retrieveAllParticipations();
-    Participation addParticipationWithIds(Participation participation, Long idEvent, String userName);
-    Participation updateParticipations(Participation participation);
+    Participation addParticipationWithIds(Participation participation, Long idEvent, Long id);
+    Participation updateParticipations(Long idParticipation, Participation updatedParticipation);
     Participation retrieveParticipations(Long idParticipation);
     void removeParticipations (Long idParticipation);
 
-     List<Participation> retrieveAllParticipationsByUser(String userName);
+     List<Participation> retrieveAllParticipationsByUser(Long id);
+     byte[] generateQRCodeForParticipation(Participation participation);
 
 }

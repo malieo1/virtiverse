@@ -38,8 +38,8 @@ public class ServiceEvent implements IEventService {
     }
 
     @Override
-    public List<Event> retrieveAllEventsByUser(String userName) {
-        return eventRep.findByUserUserName(userName);
+    public List<Event> retrieveAllEventsByUser(Long id) {
+        return eventRep.findByUserId(id);
     }
 
 
@@ -54,10 +54,10 @@ public class ServiceEvent implements IEventService {
 
  */
     @Override
-    public Event addEvent(Event event, String userName) {
-        User user = userRep.findByUserName(userName);
+    public Event addEvent(Event event, Long id) {
+        User user = userRep.findById(id);
         if (user == null) {
-            throw new IllegalArgumentException("User with username " + userName + " not found");
+            throw new IllegalArgumentException("User with id " + id + " not found");
         }
         List<String> errors = new ArrayList<>();
 
@@ -83,7 +83,6 @@ public class ServiceEvent implements IEventService {
         if (event.getDateFinEvent() == null) {
             errors.add("Le champ 'Date de fin de l'événement' est obligatoire.");
         }
-
         // Vérification du prix et de la capacité
         if (event.getPrixEvent() < 0) {
             errors.add("Le prix ne peut pas être négatif.");
@@ -91,39 +90,23 @@ public class ServiceEvent implements IEventService {
         if (event.getCapaciteEvent() < 0) {
             errors.add("La capacité ne peut pas être négative.");
         }
-
         // Vérification de la date de fin après la date de début
         if (event.getDateDebutEvent() != null && event.getDateFinEvent() != null &&
                 event.getDateFinEvent().isBefore(event.getDateDebutEvent())) {
             errors.add("La date de fin ne peut pas être antérieure à la date de début.");
         }
-
         // Vérification de la date de début après la date actuelle
         if (event.getDateDebutEvent() != null && event.getDateDebutEvent().isBefore(LocalDate.now())) {
             errors.add("La date de début ne peut pas être antérieure à la date actuelle.");
         }
-
         // S'il y a des erreurs, les lancer
         if (!errors.isEmpty()) {
             throw new IllegalArgumentException("Erreurs de validation :\n" + String.join("\n", errors));
         }
-
         // Enregistrer l'événement s'il n'y a pas d'erreurs
         event.setUser(user);
         event.setStatut("En attente");
-
-        /*
-        // Téléchargez l'image de l'événement dans Google Cloud Storage
-        BlobId blobId = BlobId.of(bucketName, "images/" + event.getImageEvent().getOriginalFilename());
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-        Blob blob = storage.create(blobInfo, event.getImageEvent().getBytes());
-
-        // Enregistrez l'événement avec l'URL de l'image dans le cloud
-        event.setImageEvent(blob.getMediaLink());
-*/
         // Enregistrez l'événement dans la base de données ou effectuez d'autres opérations nécessaires
-
-
         return eventRep.save(event);
     }
 

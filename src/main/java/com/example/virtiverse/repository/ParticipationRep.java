@@ -3,6 +3,8 @@ package com.example.virtiverse.repository;
 import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.Participation;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ public interface ParticipationRep extends JpaRepository<Participation,Long> {
         return email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$");
     }
 
-    List<Participation> findByUserUserName(String userName);
+    List<Participation> findByUserId(Long id);
+    @Query("SELECT p.user.id FROM Participation p WHERE p.idParticipation = :idParticipation")
+    String findIdByParticipationId(@Param("idParticipation") Long idParticipation);
+
 
 }

@@ -45,14 +45,14 @@ public class EventController {
         return rejectedEvent;
     }
 
-    @GetMapping("/getEventsUser/{userName}")
-    public List<Event> retrieveAllEventsByUser(@PathVariable String userName) {
-        return eventService.retrieveAllEventsByUser(userName);
+    @GetMapping("/getEventsUser/{id}")
+    public List<Event> retrieveAllEventsByUser(@PathVariable Long id) {
+        return eventService.retrieveAllEventsByUser(id);
     }
 
-    @PostMapping("/addEvent/{userName}")
-    public Event addEvent(@RequestBody Event event, @PathVariable String userName) {
-            Event addedEvent = eventService.addEvent(event,userName);
+    @PostMapping("/addEvent/{id}")
+    public Event addEvent(@RequestBody Event event, @PathVariable Long id) {
+            Event addedEvent = eventService.addEvent(event,id);
           return  addedEvent;
     }
 @PutMapping("/updateEvent/{idEvent}")

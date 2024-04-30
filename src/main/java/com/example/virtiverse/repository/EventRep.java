@@ -18,7 +18,7 @@ public interface EventRep extends JpaRepository<Event,Long> {
     List<Event> findByDateDebutEvent(LocalDate dateDebutEvent);
     List<Event> findByStatut(String statut);
 
-    List<Event> findByUserUserName(String userName);
+    List<Event> findByUserId(Long id);
 
 
 

@@ -7,9 +7,16 @@ import com.example.virtiverse.repository.EventRep;
 import com.example.virtiverse.repository.ParticipationRep;
 import com.example.virtiverse.repository.UserRep;
 import com.example.virtiverse.serviceInterface.IParticipationService;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -25,9 +32,9 @@ public class ServiceParticipation implements IParticipationService {
     }
 
     @Override
-    public Participation addParticipationWithIds(Participation participation, Long idEvent, String userName) {
+    public Participation addParticipationWithIds(Participation participation, Long idEvent, Long id) {
         Event event = eventRep.findById(idEvent).orElse(null);
-        User user = userRep.findByUserName(userName);
+        User user = userRep.findById(id);
 
 
         if (event == null) {
@@ -35,7 +42,7 @@ public class ServiceParticipation implements IParticipationService {
         }
 
         if (user == null) {
-            throw new IllegalArgumentException("User with username " + userName + " not found");
+            throw new IllegalArgumentException("User with id " + id + " not found");
         }
         // Vérifier la capacité restante de l'événement
         int capaciteRestante = event.getCapaciteEvent() - participation.getNbPlace();
@@ -65,8 +72,25 @@ public class ServiceParticipation implements IParticipationService {
     }
 
     @Override
-    public Participation updateParticipations(Participation participation) {
-        return participationRep.save(participation);
+    public Participation updateParticipations(Long idParticipation, Participation updatedParticipation) {
+        Participation existingParticipation = participationRep.findById(idParticipation)
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + idParticipation));
+        int oldNbPlace = existingParticipation.getNbPlace();
+        int newNbPlace = updatedParticipation.getNbPlace();
+        int difference = newNbPlace - oldNbPlace;
+
+        existingParticipation.setEmail(updatedParticipation.getEmail());
+        existingParticipation.setNbPlace(newNbPlace);
+        existingParticipation.setNumtel(updatedParticipation.getNumtel());
+
+        // Mettre à jour la capacité de l'événement
+        Event event = existingParticipation.getEvent();
+        int oldCapacity = event.getCapaciteEvent();
+        int newCapacity = oldCapacity - difference; // Mettez à jour la capacité en fonction de la différence
+        event.setCapaciteEvent(newCapacity);
+        eventRep.save(event); // Enregistrer la mise à jour de l'événement
+
+        return participationRep.save(existingParticipation);
     }
 
     @Override
@@ -76,12 +100,52 @@ public class ServiceParticipation implements IParticipationService {
 
     @Override
     public void removeParticipations(Long idParticipation) {
+
+        Participation participation = participationRep.findById(idParticipation)
+                .orElseThrow(() -> new RuntimeException("Participation not found with id: " + idParticipation));
+
+        // Récupérer le nombre de places de la participation
+        int nbPlace = participation.getNbPlace();
+
+        // Supprimer la participation
         participationRep.deleteById(idParticipation);
+
+        // Récupérer l'événement correspondant à la participation
+        Event event = participation.getEvent();
+
+        // Incrémenter la capacité de l'événement en fonction du nombre de places de la participation supprimée
+        int oldCapacity = event.getCapaciteEvent();
+        int newCapacity = oldCapacity + nbPlace; // Incrémenter la capacité en fonction du nombre de places supprimées
+        event.setCapaciteEvent(newCapacity);
+        eventRep.save(event); // Enregistrer la mise à jour de l'événement
     }
 
     @Override
-    public List<Participation> retrieveAllParticipationsByUser(String userName) {
-        return participationRep.findByUserUserName(userName);
+    public List<Participation> retrieveAllParticipationsByUser(Long id) {
+        return participationRep.findByUserId(id);
+    }
+
+    @Override
+    public byte[] generateQRCodeForParticipation(Participation participation) {
+        String id = participationRep.findIdByParticipationId(participation.getIdParticipation());
+        String participationInfo = "Participation ID: " + participation.getIdParticipation() + "\n" +
+                "User ID: " + id + "\n" +
+                "Event: " + participation.getEvent().getNomEvent() + "\n" +
+                "Email: " + participation.getEmail() + "\n" +
+                "Phone: " + participation.getNumtel();
+
+        try {
+            // Générer le code QR
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(participationInfo, BarcodeFormat.QR_CODE, 200, 200);
+            MatrixToImageWriter.writeToStream(bitMatrix, "PNG", outputStream);
+
+            // Convertir le code QR en tableau d'octets et le renvoyer
+            return outputStream.toByteArray();
+        } catch (WriterException | IOException e) {
+            e.printStackTrace(); // Gérer les erreurs de génération du code QR
+            return null;
+        }
     }
 
 
