@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -146,6 +149,18 @@ public class ServiceParticipation implements IParticipationService {
             e.printStackTrace(); // Gérer les erreurs de génération du code QR
             return null;
         }
+    }
+
+    @Override
+    public Map<Long, Integer> getEventParticipationCounts() {
+        List<Object[]> counts = participationRep.countParticipationsByEvent();
+        Map<Long, Integer> eventParticipationCounts = new HashMap<>();
+        for (Object[] count : counts) {
+            Long eventId = ((Number) count[0]).longValue(); // Convertir en Long
+            Long participationCount = (Long) count[1]; // Pas besoin de conversion
+            eventParticipationCounts.put(eventId, participationCount.intValue()); // Convertir en Integer
+        }
+        return eventParticipationCounts;
     }
 
 

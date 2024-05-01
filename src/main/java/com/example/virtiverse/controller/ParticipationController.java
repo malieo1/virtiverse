@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 //@Tag(name = "Gestion Participation")
 @RestController
@@ -71,6 +72,11 @@ public class ParticipationController {
         }
         // Retourner le code QR en tant que réponse avec le type de contenu approprié
         return ResponseEntity.ok().contentType(MediaType.IMAGE_PNG).body(qrCodeBytes);
+    }
+    @GetMapping("/statistics")
+    public Map<Long, Integer> getEventParticipationCounts() {
+        Map<Long, Integer> eventParticipationCounts = participationService.getEventParticipationCounts();
+        return eventParticipationCounts;
     }
 }
 

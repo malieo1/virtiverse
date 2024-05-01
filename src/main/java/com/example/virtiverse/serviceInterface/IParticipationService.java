@@ -1,11 +1,9 @@
 package com.example.virtiverse.serviceInterface;
 
-import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.Participation;
-import com.example.virtiverse.entities.PubItem;
-import org.apache.tomcat.util.modeler.ParameterInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IParticipationService {
     List<Participation> retrieveAllParticipations();
@@ -16,5 +14,6 @@ public interface IParticipationService {
 
      List<Participation> retrieveAllParticipationsByUser(Long id);
      byte[] generateQRCodeForParticipation(Participation participation);
+    public Map<Long, Integer> getEventParticipationCounts();
 
 }

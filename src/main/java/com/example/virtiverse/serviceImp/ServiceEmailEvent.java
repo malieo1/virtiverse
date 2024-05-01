@@ -13,6 +13,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @AllArgsConstructor
 public class ServiceEmailEvent implements IEmailEventService {
@@ -67,4 +69,5 @@ public class ServiceEmailEvent implements IEmailEventService {
             e.printStackTrace(); // Gérer les erreurs d'envoi de mail
         }
     }
+
 }
