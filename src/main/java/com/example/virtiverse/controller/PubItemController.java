@@ -17,6 +17,7 @@ import java.util.List;
 public class PubItemController {
     IPubItemService iPubItemService;
 
+
     @GetMapping("/retrieveAllPub")
     public List<PubItem> retrieveAllPub() {
         return iPubItemService.getPubitem();
@@ -73,4 +74,6 @@ public class PubItemController {
         PubItem addedPubItem = iPubItemService.addPubitemm(pubItem, id);
         return new ResponseEntity<>(addedPubItem, HttpStatus.CREATED);
     }
+
+
 }

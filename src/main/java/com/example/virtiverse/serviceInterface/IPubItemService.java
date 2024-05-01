@@ -1,11 +1,14 @@
 package com.example.virtiverse.serviceInterface;
 
 import com.example.virtiverse.entities.PubItem;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
 
 public interface IPubItemService {
+
+
 
     PubItem addPubitem (PubItem pubItem);
     PubItem updatePubitem ( PubItem pubItem);
@@ -23,4 +26,7 @@ public interface IPubItemService {
     List<PubItem> getPubItemsSortedByEtatDesc();
 
     PubItem addPubitemm(@Valid PubItem pubItem, Integer id);
+
+    PubItem getPubItemById(Long id);
+
 }

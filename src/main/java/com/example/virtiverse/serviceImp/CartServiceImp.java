@@ -115,4 +115,9 @@ public class CartServiceImp implements ICartService {
         }
     }
 
+
+    public List<Cart> searchCarts(Long cartId, BigDecimal total, String itemName) {
+        return cartRepository.findByCriteria(cartId, total, itemName);
+    }
+
 }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,5 +72,15 @@ public class CartController {
     public ResponseEntity<String> deleteCart(@PathVariable Long cartId) {
         iCartService.deleteCart(cartId);
         return ResponseEntity.ok("Cart deleted successfully");
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Cart>> searchCarts(
+            @RequestParam(required = false) Long cartId,
+            @RequestParam(required = false) BigDecimal total,
+            @RequestParam(required = false) String itemName) {
+        List<Cart> searchResults = iCartService.searchCarts(cartId, total, itemName);
+
+        return ResponseEntity.ok(searchResults);
     }
 }

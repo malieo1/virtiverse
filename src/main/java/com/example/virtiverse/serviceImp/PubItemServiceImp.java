@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class PubItemServiceImp implements IPubItemService {
 
     @Override
     //public List<PubItem> searchPubItems(String keyword) {
-       // return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
+    // return pubItemRepository.findByDescriptionContainingIgnoreCase(keyword);
     //}
 
     public List<PubItem> searchPubItems(String keyword) {
@@ -108,5 +109,10 @@ public class PubItemServiceImp implements IPubItemService {
         pubItem.setDatePost(new Date());
 
         return pubItemRepository.save(pubItem);
+    }
+
+    @Override
+    public PubItem getPubItemById(Long id) {
+        return null;
     }
 }

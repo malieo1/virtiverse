@@ -1,10 +1,9 @@
 package com.example.virtiverse.serviceInterface;
 
 import com.example.virtiverse.entities.Cart;
-import com.example.virtiverse.entities.Commentaire;
 import com.example.virtiverse.entities.PubItem;
-import com.example.virtiverse.entities.User;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,5 +25,7 @@ public interface ICartService {
     List<Cart> getAllCartsWithProducts();
 
     void deleteCart (Long id);
+
+    List<Cart> searchCarts(Long id, BigDecimal total, String pubItems);
 }
 
