@@ -68,9 +68,9 @@ public class EventController {
     public void removeEvent(@PathVariable("idEvent") Long idEvent) {
         eventService.removeEvent(idEvent);
     }
-   @GetMapping("/searchEventsByName/{nomEvent}")
-    public List<Event> searchEventsByName(@PathVariable String nomEvent) {
-        return eventService.searchEventsByName(nomEvent);
+   @GetMapping("/searchEventsByOrganisateur/{organisateurEvent}")
+    public List<Event> searchEventsByOrganisateur(@PathVariable String organisateurEvent) {
+        return eventService.searchEventsByOrganisateur(organisateurEvent);
     }
 
     @GetMapping("/orderByPriceDesc")

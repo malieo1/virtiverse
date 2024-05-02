@@ -168,8 +168,8 @@ public class ServiceEvent implements IEventService {
     public void removeEvent(Long idEvent) { eventRep.deleteById(idEvent); }
 
     @Override
-    public List<Event> searchEventsByName(String nomEvent) {
-        return eventRep.findByNomEventContainingIgnoreCase(nomEvent);
+    public List<Event> searchEventsByOrganisateur(String organisateurEvent) {
+        return eventRep.findByOrganisateurEventContainingIgnoreCase(organisateurEvent);
     }
 
 

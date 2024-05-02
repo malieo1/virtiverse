@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface EventRep extends JpaRepository<Event,Long> {
 
-    List<Event> findByNomEventContainingIgnoreCase(String nomEvent);
+    List<Event> findByOrganisateurEventContainingIgnoreCase(String organisateurEvent);
 
     @Query("SELECT e FROM Event e ORDER BY e.prixEvent DESC")
     List<Event> findAllOrderByPrixEventDesc();

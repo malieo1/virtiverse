@@ -15,7 +15,7 @@ public interface IEventService {
     Event updateEvent(Long idEvent, Event updatedEvent);
     Event retrieveEvent(Long idEvent);
     void removeEvent (Long idEvent);
-   List<Event> searchEventsByName(String nomEvent);
+   List<Event> searchEventsByOrganisateur(String nomEvent);
   List<Event> findAllOrderByPrixEventDesc();
   List<Event> findByDateDebutEvent(LocalDate dateDebutEvent);
   byte[] generateQRCodeForEvent(Event event);
