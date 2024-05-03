@@ -1,13 +1,18 @@
 package com.example.virtiverse.controller;
 
+import com.example.virtiverse.entities.Etat;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.serviceInterface.IPubItemService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 @CrossOrigin
 @RestController
@@ -18,6 +23,10 @@ public class PubItemController {
     IPubItemService iPubItemService;
 
 
+
+    private final ObjectMapper objectMapper;
+
+
     @GetMapping("/retrieveAllPub")
     public List<PubItem> retrieveAllPub() {
         return iPubItemService.getPubitem();
@@ -25,8 +34,11 @@ public class PubItemController {
 
 
     @PostMapping("/addPub")
-    public PubItem addPubitem(@RequestBody PubItem pubItem) {
-        return iPubItemService.addPubitem(pubItem);
+    public PubItem addPubitem( @RequestPart("pubitem") String pubItem ,   @RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Integer id) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        PubItem pubItemObject = objectMapper.readValue(pubItem, PubItem.class);
+        System.out.println(pubItemObject);
+        return iPubItemService.addPubitem(pubItemObject , multipartFile ,id);
     }
 
     @PostMapping("/updatePub")
@@ -73,6 +85,11 @@ public class PubItemController {
     public ResponseEntity<PubItem> addPubItemm(@Valid @RequestBody PubItem pubItem, @RequestParam Integer id) {
         PubItem addedPubItem = iPubItemService.addPubitemm(pubItem, id);
         return new ResponseEntity<>(addedPubItem, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/itemsbyetat")
+    public List<PubItem> getItemsSortedByEtat(@RequestParam Etat etat) {
+        return iPubItemService.getItemsSortedByEtat(etat);
     }
 
 

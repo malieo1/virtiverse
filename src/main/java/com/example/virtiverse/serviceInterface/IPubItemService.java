@@ -1,16 +1,18 @@
 package com.example.virtiverse.serviceInterface;
 
+import com.example.virtiverse.entities.Etat;
 import com.example.virtiverse.entities.PubItem;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 public interface IPubItemService {
 
 
 
-    PubItem addPubitem (PubItem pubItem);
+    PubItem addPubitem (PubItem pubItem , MultipartFile multipartFile , Integer id) throws IOException;
     PubItem updatePubitem ( PubItem pubItem);
     List<PubItem> getPubitem ();
     void deletePubitem (Long id_pub);
@@ -29,4 +31,6 @@ public interface IPubItemService {
 
     PubItem getPubItemById(Long id);
 
+
+    List<PubItem> getItemsSortedByEtat(Etat etat);
 }

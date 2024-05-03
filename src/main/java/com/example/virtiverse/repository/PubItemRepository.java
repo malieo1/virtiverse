@@ -1,5 +1,6 @@
 package com.example.virtiverse.repository;
 
+import com.example.virtiverse.entities.Etat;
 import com.example.virtiverse.entities.PubItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,7 @@ public interface PubItemRepository extends JpaRepository<PubItem,Long>{
 
     List<PubItem> findByOrderByEtatAsc();
     List<PubItem> findAllByOrderByEtatDesc();
+
+    List<PubItem> findByEtatOrderByDatePostDesc(Etat etat);
+
 }
