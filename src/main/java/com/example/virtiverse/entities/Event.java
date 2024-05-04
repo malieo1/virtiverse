@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -40,6 +42,7 @@ public class Event implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "event")
+    @Cascade(CascadeType.ALL)
     Set<Participation> participations;
 
 }

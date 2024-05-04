@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -47,18 +48,14 @@ public class ServiceEvent implements IEventService {
     public List<Event> retrieveApprovedEvents() {
         return eventRep.findByStatut("Approuvé");
     }
-/*
-    com.google.cloud.storage.Storage storage;
-    @Value("${google.cloud.storage.bucketName}")
-    //private String bucketName;
 
- */
     @Override
     public Event addEvent(Event event, Long id) {
-        User user = userRep.findById(id);
-        if (user == null) {
+        Optional<User> optionalUser = userRep.findById(id);
+        if (optionalUser.isEmpty()) {
             throw new IllegalArgumentException("User with id " + id + " not found");
         }
+        User user = optionalUser.get();
         List<String> errors = new ArrayList<>();
 
         // Vérification des champs obligatoires

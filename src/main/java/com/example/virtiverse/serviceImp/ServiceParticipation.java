@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -37,16 +38,17 @@ public class ServiceParticipation implements IParticipationService {
     @Override
     public Participation addParticipationWithIds(Participation participation, Long idEvent, Long id) {
         Event event = eventRep.findById(idEvent).orElse(null);
-        User user = userRep.findById(id);
-
+        // Récupérer l'utilisateur
+        Optional<User> optionalUser = userRep.findById(id);
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User with id " + id + " not found");
+        }
+        User user = optionalUser.get();
 
         if (event == null) {
             throw new IllegalArgumentException("Event with id " + idEvent + " not found");
         }
 
-        if (user == null) {
-            throw new IllegalArgumentException("User with id " + id + " not found");
-        }
         // Vérifier la capacité restante de l'événement
         int capaciteRestante = event.getCapaciteEvent() - participation.getNbPlace();
         long numTel = participation.getNumtel();
