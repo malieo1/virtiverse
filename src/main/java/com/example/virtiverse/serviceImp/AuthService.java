@@ -5,6 +5,7 @@ import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,10 +44,20 @@ public class AuthService {
                 return resp;
             }
 
+            // Check if email already exists
+            if (ourUserRepo.existsByEmail(registrationRequest.getEmail())) {
+                resp.setStatusCode(400); // Bad request
+                resp.setMessage("User with this email already exists");
+                return resp;
+            }
+
             User ourUsers = new User();
             ourUsers.setEmail(registrationRequest.getEmail());
             ourUsers.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             ourUsers.setRole(registrationRequest.getRole());
+            ourUsers.setName(registrationRequest.getName());
+            ourUsers.setPhoneNumber(registrationRequest.getPhoneNumber());
+
             User ourUserResult = ourUserRepo.save(ourUsers);
 
             if (ourUserResult != null && ourUserResult.getId() > 0) {
@@ -54,13 +65,12 @@ public class AuthService {
                 resp.setMessage("User Saved Successfully");
                 resp.setStatusCode(200);
             }
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             resp.setStatusCode(500);
-            resp.setError(e.getMessage());
+            resp.setError("Error saving user: " + e.getMessage());
         }
         return resp;
     }
-
     public ReqRes signIn(ReqRes signinRequest){
         ReqRes response = new ReqRes();
 
@@ -72,6 +82,9 @@ public class AuthService {
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
+            response.setId(user.getId());
+            response.setEmail(user.getEmail());
+            response.setRole(user.getRole());
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Signed In");
@@ -81,7 +94,6 @@ public class AuthService {
         }
         return response;
     }
-
     public ReqRes refreshToken(ReqRes refreshTokenReqiest){
         ReqRes response = new ReqRes();
         String ourEmail = jwtUtils.extractUsername(refreshTokenReqiest.getToken());
@@ -97,4 +109,9 @@ public class AuthService {
         response.setStatusCode(500);
         return response;
     }
+
+
+
+
+
 }
