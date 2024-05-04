@@ -1,13 +1,15 @@
 package com.example.virtiverse.repository;
 
 import com.example.virtiverse.entities.Cart;
-import com.example.virtiverse.entities.PubItem;
+import com.example.virtiverse.entities.User;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
@@ -18,5 +20,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     List<Cart> findByCriteria(@Param("cartId") Long cartId,
                               @Param("total") BigDecimal total,
                               @Param("itemName") String itemName);
+
+
+    Optional<Cart> findByUser(User userId);
+
+    Optional<Cart> findByUserId(Integer userId);
 }
 

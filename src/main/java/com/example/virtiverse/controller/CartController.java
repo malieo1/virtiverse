@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -36,6 +37,19 @@ public class CartController {
     public ResponseEntity<Cart> createCartForUser(@PathVariable Integer id) {
         Cart cart = iCartService.createCartForUser(id);
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Cart> getCartForUser(@PathVariable Integer id) {
+        try {
+            Cart cart = iCartService.getCartByUserId(id);
+            return ResponseEntity.ok(cart);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/{cartId}/items")
@@ -82,5 +96,18 @@ public class CartController {
         List<Cart> searchResults = iCartService.searchCarts(cartId, total, itemName);
 
         return ResponseEntity.ok(searchResults);
+    }
+
+
+    @GetMapping("/user/{userId}/pubitems")
+    public ResponseEntity<List<PubItem>> getPubItemsInCartByUserId(@PathVariable Integer userId) {
+        try {
+            List<PubItem> pubItems = iCartService.getPubItemsInCartByUserId(userId);
+            return ResponseEntity.ok(pubItems);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

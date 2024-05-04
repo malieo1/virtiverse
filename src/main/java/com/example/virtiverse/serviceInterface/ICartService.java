@@ -27,5 +27,9 @@ public interface ICartService {
     void deleteCart (Long id);
 
     List<Cart> searchCarts(Long id, BigDecimal total, String pubItems);
+
+    Cart getCartByUserId(Integer id);
+
+    List<PubItem> getPubItemsInCartByUserId(Integer userId);
 }
 

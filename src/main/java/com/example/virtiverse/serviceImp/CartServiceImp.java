@@ -11,9 +11,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -54,6 +57,15 @@ public class CartServiceImp implements ICartService {
     }
 
 
+    public Cart getCartByUserId(Integer userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return cartRepository.findByUser(user).orElseThrow(() -> new NoSuchElementException("Cart not found for user with ID: " + userId));
+        } else {
+            throw new NoSuchElementException("User not found with ID: " + userId);
+        }
+    }
     @Override
     public Cart createCartForUser(Integer id) {
         Optional<User> userOptional = userRepository.findById(id);
@@ -66,6 +78,9 @@ public class CartServiceImp implements ICartService {
             throw new IllegalArgumentException("User not found with username: " + id);
         }
     }
+
+
+
 
     @Override
     public void removeItemFromCart(Long cartId, Long id_pub) {
@@ -120,4 +135,31 @@ public class CartServiceImp implements ICartService {
         return cartRepository.findByCriteria(cartId, total, itemName);
     }
 
+
+
+    public List<PubItem> getPubItemsInCartByUserId(Integer userId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new NoSuchElementException("Cart not found for user with ID: " + userId));
+
+        List<PubItem> pubItems = new ArrayList<>(cart.getPubItems());
+
+        // Construct image URLs for each PubItem
+        for (PubItem pubItem : pubItems) {
+            constructImageUrl(pubItem);
+        }
+
+        return pubItems;
+    }
+
+    private void constructImageUrl(PubItem pubItem) {
+        String fileName = pubItem.getImage(); // Get the image filename from the PubItem
+        try {
+            String encodedFileName = URLEncoder.encode(fileName, "UTF-8"); // URL encode the filename
+            String imageUrl = "http://localhost:8082/img/" + encodedFileName.replace("+", "%20");
+            pubItem.setImage(imageUrl); // Set the image URL back to PubItem
+        } catch (UnsupportedEncodingException e) {
+            // Handle encoding exception
+            e.printStackTrace();
+        }
+    }
 }

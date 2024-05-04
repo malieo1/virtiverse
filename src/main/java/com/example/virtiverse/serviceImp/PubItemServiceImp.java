@@ -9,24 +9,17 @@ import com.example.virtiverse.repository.PubItemRepository;
 import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
-import lombok.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.validation.Path;
 import javax.validation.Valid;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,14 +60,28 @@ public class PubItemServiceImp implements IPubItemService {
 
 
 
-    @Override
-    public PubItem updatePubitem(@Valid PubItem pubItem) {
 
-        if (pubItem.getPrix() <= 0) {
-            throw new IllegalArgumentException("Price must be greater than 0");
-        }
+    public PubItem updatePubitem(@Valid PubItem updatedPubItem) {
+        // Find the existing item by ID
+        PubItem existingItem = pubItemRepository.findById(updatedPubItem.getId_pub())
+                .orElseThrow(() -> new IllegalArgumentException("PubItem not found"));
+
+        // Update only the fields that are provided in the updatedPubItem
+        existingItem.setName(updatedPubItem.getName());
+        existingItem.setDescription(updatedPubItem.getDescription());
+        existingItem.setPrix(updatedPubItem.getPrix());
+        existingItem.setNumTelephone(updatedPubItem.getNumTelephone());
+        existingItem.setEtat(updatedPubItem.getEtat());
+
+        // Save the updated item
+        return pubItemRepository.save(existingItem);
+    }   public PubItem updatePubItem(@Valid PubItem pubItem) {
+        // Perform validation if needed
         return pubItemRepository.save(pubItem);
     }
+
+
+
 
     @Override
     public List<PubItem> getPubitem() {
@@ -107,12 +114,21 @@ public class PubItemServiceImp implements IPubItemService {
     //}
 
     public List<PubItem> searchPubItems(String keyword) {
-        return pubItemRepository.searchPubItems(keyword);
+        List<PubItem> pubItems = pubItemRepository.searchPubItems(keyword);
+        pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
+        return pubItems;
     }
-
-    public List<PubItem> getPubItemsSortedByPrice() {
+    public List<PubItem> getPubItemsSortedByPriceAS() {
         Sort sortByPrice = Sort.by("prix").ascending();
-        return pubItemRepository.findAll(sortByPrice);
+        List<PubItem> pubItems = pubItemRepository.findAll(sortByPrice);
+        pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
+        return pubItems;
+    }
+    public List<PubItem> getPubItemsSortedByPriceDS() {
+        Sort sortByPrice = Sort.by("prix").descending();
+        List<PubItem> pubItems =  pubItemRepository.findAll(sortByPrice);
+        pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
+        return pubItems;
     }
 
 
@@ -129,7 +145,6 @@ public class PubItemServiceImp implements IPubItemService {
     public List<PubItem> getPubItemsSortedByEtatDesc() {
         return pubItemRepository.findAllByOrderByEtatDesc();
     }
-
 
 
 
@@ -156,9 +171,12 @@ public class PubItemServiceImp implements IPubItemService {
     }
 
     @Override
-    public PubItem getPubItemById(Long id) {
-        return null;
+    public Optional<PubItem> getPubItemById(Long id_pub) {
+        Optional<PubItem> pubItemOptional = pubItemRepository.findById(id_pub);
+        pubItemOptional.ifPresent(this::constructImageUrl); // If PubItem exists, construct image URL
+        return pubItemOptional;
     }
+
 
     public List<PubItem> getItemsSortedByEtat(Etat etat) {
         List<PubItem> items;
@@ -179,6 +197,12 @@ public class PubItemServiceImp implements IPubItemService {
                 items = new ArrayList<>(); // Handle other cases if needed
         }
         return items;
+    }
+
+    public List<PubItem> getPubItemsByUserId(Integer userId) {
+        List<PubItem> pubItems = pubItemRepository.findByUserId(userId);
+        pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
+        return pubItems;
     }
 
 }

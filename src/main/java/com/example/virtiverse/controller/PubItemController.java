@@ -4,6 +4,7 @@ import com.example.virtiverse.entities.Etat;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.serviceInterface.IPubItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/pubitem")
@@ -42,10 +45,10 @@ public class PubItemController {
     }
 
     @PostMapping("/updatePub")
-    public PubItem updatePubitem(@RequestBody PubItem pubItem) {
-        return iPubItemService.updatePubitem(pubItem);
+    public ResponseEntity<PubItem> updatePubItem(@Valid @RequestBody PubItem updatedPubItem) {
+        PubItem updatedItem = iPubItemService.updatePubitem(updatedPubItem);
+        return ResponseEntity.ok(updatedItem);
     }
-
     @DeleteMapping("/removePub/{id}")
     public void deletePubitem(@PathVariable("id") Long id_pub) {
         iPubItemService.deletePubitem(id_pub);
@@ -57,11 +60,18 @@ public class PubItemController {
         return new ResponseEntity<>(searchResults, HttpStatus.OK);
     }
 
-    @GetMapping("/sorted-by-price")
-    public ResponseEntity<List<PubItem>> getPubItemsSortedByPrice() {
-        List<PubItem> pubItems = iPubItemService.getPubItemsSortedByPrice();
+    @GetMapping("/sorted-by-priceas")
+    public ResponseEntity<List<PubItem>> getPubItemsSortedByPriceAS() {
+        List<PubItem> pubItems = iPubItemService.getPubItemsSortedByPriceAS();
         return new ResponseEntity<>(pubItems, HttpStatus.OK);
     }
+
+    @GetMapping("/sorted-by-priceds")
+    public ResponseEntity<List<PubItem>> getPubItemsSortedByPriceDS() {
+        List<PubItem> pubItems = iPubItemService.getPubItemsSortedByPriceDS();
+        return new ResponseEntity<>(pubItems, HttpStatus.OK);
+    }
+
 
     @GetMapping("/filterByPrice")
     public ResponseEntity<List<PubItem>> filterByPriceRange(
@@ -92,5 +102,15 @@ public class PubItemController {
         return iPubItemService.getItemsSortedByEtat(etat);
     }
 
+    @GetMapping("/{id_pub}")
+    public ResponseEntity<PubItem> getProductById(@PathVariable("id_pub") Long id_pub) {
+        Optional<PubItem> product = iPubItemService.getPubItemById(id_pub);
+        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<PubItem> getPubItemsByUserId(@PathVariable Integer userId) {
+        return iPubItemService.getPubItemsByUserId(userId);
+    }
 
 }
