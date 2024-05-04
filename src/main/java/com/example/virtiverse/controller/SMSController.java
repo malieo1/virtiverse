@@ -20,7 +20,7 @@ public class SMSController {
     @PostMapping("/send-sms")
     public String sendSMS(@RequestBody SMSRequest smsRequest) {
         try {
-            smsService.sendSMS(smsRequest.getRecipient(), smsRequest.getMessage());
+            smsService.sendSMS("+21693661180", "Vous avez une nouvelle demande");
             return "SMS sent successfully";
         } catch (Exception e) {
             return "Failed to send SMS: " + e.getMessage();

@@ -19,6 +19,7 @@ public class Maison implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id_maison;
     String adresse;
+    private int nbrplacedispo;
     float prix ;
     String description;
     @ElementCollection

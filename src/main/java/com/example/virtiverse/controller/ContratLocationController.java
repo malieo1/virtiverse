@@ -39,6 +39,15 @@ public class ContratLocationController {
     public void deleteContratLocation( @PathVariable ("id_location")Long id_location) {
         contratLocationService.deleteContratLocation(id_location);
     }
+    @PostMapping("/addContratMaisonColocataire")
+    public ContratLocation addContratByUserAndMaison(@RequestBody ContratLocation contratLocation, @RequestParam String nom, @RequestParam Long idMmaison) {
+        return contratLocationService.addContratByUserAndMaison(contratLocation,nom,idMmaison);
+    }
+
+    @GetMapping("/contrats")
+    public List<ContratLocation> getContratsByUser(@RequestParam("nom") String nom) {
+        return contratLocationService.getContratsByUser(nom);
+    }
 
 
 }

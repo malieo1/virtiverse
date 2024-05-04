@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,5 +24,10 @@ public class ContratLocation implements Serializable {
     LocalDate date_debut;
     LocalDate date_fin;
     @ManyToOne
+    @ToString.Exclude
+    @JsonIgnore
     Maison m;
+    @OneToMany (cascade = CascadeType.ALL)
+
+    List<User> colocataires;
 }

@@ -10,4 +10,5 @@ public interface IContratLocation {
     ContratLocation updateContratLocation (ContratLocation contratLocation,Long id_maison);
     ContratLocation getContratLocation(Long id_contrat);
     void deleteContratLocation(Long id_contrat);
+    ContratLocation addContratByUserAndMaison(ContratLocation contratLocation, String nom, Long id_maison);
 }
