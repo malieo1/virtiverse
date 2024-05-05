@@ -1,3 +1,4 @@
+
 package com.example.virtiverse.entities;
 
 
@@ -11,7 +12,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
+
+    private String userName;
     private String userFirstName;
     private String userLastName;
     private String userPassword;
@@ -31,3 +34,4 @@ public class User {
 
 
 }
+

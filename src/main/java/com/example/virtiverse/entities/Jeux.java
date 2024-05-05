@@ -1,17 +1,38 @@
 package com.example.virtiverse.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.virtiverse.entities.enums.TypeJeux;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.io.Serializable;
 
 @Entity
-public class Jeux {
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+
+public class Jeux implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_jeux;
+    Long idJeux;
 
-    private String type_jeux;
-     private String image;
+    String nom;
+
+    @Enumerated(EnumType.STRING)
+    TypeJeux typeJeux;
+
+    String image;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    User iduser;
+
+
 
 }
