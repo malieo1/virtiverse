@@ -1,16 +1,36 @@
 package com.example.virtiverse.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDate;
+
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@ToString
+
+
+
 public class LostandFound {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pub;
-    private String descripttion;
-    private String image;
-    private long num_tel;
+     long idPub;
+     String name;
+     String location;
+     String description;
+     String status;
+     String image;
+     String datePub;
+     long num_tel;
+     @ManyToOne(cascade = CascadeType.ALL)
+     @JsonIgnore
+     User iduser;
+
 }

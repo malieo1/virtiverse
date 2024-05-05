@@ -1,18 +1,36 @@
 package com.example.virtiverse.entities;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-public class Maison {
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Maison implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_maison;
+    Long id_maison;
+    String adresse;
+    private int nbrplacedispo;
+    float prix ;
+    String description;
+    @ElementCollection
+    List <String> images;
+    @OneToMany(mappedBy = "m")
 
-    private String adresse;
-    private String image;
-    private float prix ;
-    private String description;
+    List<ContratLocation> contratsLocation;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    User user;
+
+    @ManyToMany (cascade = CascadeType.ALL)
+    List<User> demandeurs;
+
 }

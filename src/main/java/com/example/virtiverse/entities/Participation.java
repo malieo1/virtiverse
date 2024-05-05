@@ -1,16 +1,33 @@
 package com.example.virtiverse.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.io.Serializable;
 
 @Entity
-public class Participation {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Participation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_participation;
-     private long numtel;
-     private String email;
-     private int nb_place;
+     Long idParticipation;
+      long numtel;
+      String email;
+      int nbPlace;
+
+    @JsonIgnore
+    @ManyToOne
+    Event event;
+
+    @JsonIgnore
+    @ManyToOne
+    User user;
+
 }

@@ -1,38 +1,37 @@
 package com.example.virtiverse.entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import lombok.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class PubItem {
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class PubItem implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_pub;
-
-    @Column(nullable = false)
+    private String name ;
     private String description;
-
     private String image;
-
-    @Column(nullable = false)
     private float prix;
-
-    @Column(nullable = false)
     private long numTelephone;
 
-    private String etat;
+    @Enumerated
+    private Etat etat;
 
-    @Column(name = "date_post", nullable = false)
+    @Column(name = "date_post", nullable = true)
     private Date datePost;
-
     @ManyToOne
     User user;
-    @OneToMany (mappedBy = "pubItem")
+    @OneToMany ( cascade = CascadeType.ALL, mappedBy = "pubItem")
+    @JsonIgnore
     private Set<Commentaire> Commentaire;
-
-    @OneToMany (mappedBy="pub")
-    private Set<LikeItem> Likeitem;
 }

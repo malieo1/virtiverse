@@ -1,5 +1,4 @@
 package com.example.virtiverse.entities;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +21,7 @@ public class Covoiturage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
      Long id_cov;
      int nombre_placecov;
      LocalDate date_depart;

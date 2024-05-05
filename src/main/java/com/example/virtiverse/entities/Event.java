@@ -1,27 +1,45 @@
 package com.example.virtiverse.entities;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-public class Event {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_event;
-    private String nom_event;
-    private String organisateur_event;
-    private String description_event;
-    private String lieu_event;
-    private Date dateDebut_event;
-    private Date dateFin_event;
-
-    private float prix_event;
-
-    private int capacite_event;
-    private String image_event;
-
+    Long idEvent;
+    String nomEvent;
+    String organisateurEvent;
+    String descriptionEvent;
+    String lieuEvent;
+    LocalDate dateDebutEvent;
+    LocalDate dateFinEvent;
+    float prixEvent;
+    int capaciteEvent;
+    String imageEvent;
+    String statut;
 
 
+    @ManyToOne
+    @JsonIgnore
+    User user;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "event")
+    @Cascade(CascadeType.ALL)
+    Set<Participation> participations;
 }
