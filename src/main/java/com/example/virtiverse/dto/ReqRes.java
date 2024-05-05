@@ -10,16 +10,17 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReqRes {
     private int statusCode;
-    private int id ;
+    private Long id ;
+
     private int phoneNumber;
     private String userName;
-    private String Name ;
+    private String Name;
     private String error;
     private String message;
     private String token;
+    private String image ;
     private String refreshToken;
     private String expirationTime;
-    private String name;
     private String email;
     private String role;
     private String password;

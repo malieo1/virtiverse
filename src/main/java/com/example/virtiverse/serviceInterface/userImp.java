@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface userImp {
-    User getUserById(Integer id );
+    User addUser(User user , MultipartFile multipartFile) throws IOException;
+    User updateUser(User user , MultipartFile multipartFile) throws IOException;
+    void deletUser(Long Id);
+    User getUserById(Long id );
     List<User> getusers();
-    User addImageToUser(MultipartFile multipartFile ,Integer id) throws IOException;
+    User addImageToUser(MultipartFile multipartFile ,Long id) throws IOException;
 }

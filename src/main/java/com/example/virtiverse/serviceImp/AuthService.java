@@ -4,15 +4,21 @@ import com.example.virtiverse.dto.ReqRes;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.util.JWTUtils;
+import lombok.AllArgsConstructor;
+import org.hibernate.dialect.SybaseDialect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.HashMap;
-
+@AllArgsConstructor
 @Service
 public class AuthService {
     @Autowired
@@ -23,6 +29,9 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    UserService userService ;
+
 
     public ReqRes signUp(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
@@ -71,20 +80,25 @@ public class AuthService {
         }
         return resp;
     }
+
     public ReqRes signIn(ReqRes signinRequest){
         ReqRes response = new ReqRes();
 
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getEmail(),signinRequest.getPassword()));
             var user = ourUserRepo.findByEmail(signinRequest.getEmail()).orElseThrow();
+            userService.constructImageUrl(user);
             System.out.println("USER IS: "+ user);
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
-            response.setId(user.getId());
+            response.setId((user.getId()));
+            response.setName(user.getName());
+            response.setImage(user.getImage());
             response.setEmail(user.getEmail());
             response.setRole(user.getRole());
+
             response.setRefreshToken(refreshToken);
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Signed In");

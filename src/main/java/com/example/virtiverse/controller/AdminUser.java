@@ -2,7 +2,9 @@ package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.serviceImp.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.websocket.server.PathParam;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,9 +17,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+@AllArgsConstructor
 public class AdminUser {
     @Autowired
     UserService userService ;
+    private final ObjectMapper objectMapper;
     @GetMapping("/user/alone")
     public ResponseEntity<Object> userAlone(){
         return ResponseEntity.ok("USers alone can access this ApI only");
@@ -39,18 +43,46 @@ public class AdminUser {
      }
 
     @PostMapping("/public/addimage")
-    User addImageToUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Integer id) throws IOException {
+    User addImageToUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Long id) throws IOException {
         return userService.addImageToUser(multipartFile,id);
 
     }
 
 
     @GetMapping("/public/getUserById/{id}")
-    User getUserById(@PathVariable("id")Integer id){
+    User getUserById(@PathVariable("id")Long id){
         return userService.getUserById(id);
     }
 
+    @DeleteMapping("/deleteUser/{id}")
+             void deleteUser(@PathVariable("id") Long id){
+        userService.deletUser(id);
 
+    }
+
+
+
+
+    @PostMapping("/public/adduser")
+    User addUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("user") String user) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user1 = objectMapper.readValue(user, User.class);
+        System.out.println(user1);
+       return userService.addUser(user1 , multipartFile);
+
+    }
+
+
+    @PostMapping("/public/update")
+    User updateUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("user") String user) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        User user1 = objectMapper.readValue(user, User.class);
+        System.out.println(user1);
+        return userService.updateUser(user1 , multipartFile);
+
+    }
     @GetMapping("/public/getUsers")
     List<User> getUsers(){
         return userService.getusers();
