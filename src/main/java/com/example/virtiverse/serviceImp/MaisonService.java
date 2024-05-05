@@ -8,6 +8,8 @@ import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.IMaison;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -100,5 +102,8 @@ public class MaisonService implements IMaison {
         Maison maison = maisonRepository.findById(maisonId).orElse(null);
         maison.getDemandeurs().removeIf(demandeur -> demandeur.getUserName().equals(nomDemandeur));
         maisonRepository.save(maison);
+    }
+    public Page<Maison> findAllMaisonsPage(Pageable pageable) {
+        return maisonRepository.findAll(pageable);
     }
 }

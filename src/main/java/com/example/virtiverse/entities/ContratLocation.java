@@ -28,6 +28,5 @@ public class ContratLocation implements Serializable {
     @JsonIgnore
     Maison m;
     @OneToMany (cascade = CascadeType.ALL)
-
     List<User> colocataires;
 }

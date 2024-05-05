@@ -3,10 +3,11 @@ package com.example.virtiverse.repository;
 import com.example.virtiverse.entities.Maison;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface MaisonRepository extends JpaRepository <Maison,Long> {
+public interface MaisonRepository extends JpaRepository <Maison,Long> , PagingAndSortingRepository<Maison, Long> {
     List<Maison> findByAdresse(String adresse);
     @Query("SELECT m FROM Maison m ORDER BY m.prix ASC")
     List<Maison> findAllOrderByPrixAsc();

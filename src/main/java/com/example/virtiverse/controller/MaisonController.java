@@ -7,6 +7,9 @@ import com.example.virtiverse.repository.MaisonRepository;
 import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceImp.MaisonService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -83,6 +86,14 @@ public class MaisonController {
     @DeleteMapping("/{maisonId}/demandeurs/{nomDemandeur}")
     public void supprimerDemandeur(@PathVariable Long maisonId, @PathVariable String nomDemandeur) {
         maisonService.supprimerDemandeur(maisonId, nomDemandeur);
+    }
+
+    @GetMapping("/list_page")
+    public Page<Maison> findAllMaisonsPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return maisonService.findAllMaisonsPage(pageable);
     }
 
 }
