@@ -10,6 +10,9 @@ import java.util.Set;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     private String userName;
     private String userFirstName;
     private String userLastName;

@@ -26,6 +26,7 @@ public class Jeux implements Serializable {
 
     @Enumerated(EnumType.STRING)
     TypeJeux typeJeux;
+
     String image;
 
     @ManyToOne(cascade = CascadeType.ALL)

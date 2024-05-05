@@ -8,8 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 public interface Raba3Interface {
-    List<Raba3> retrieveAllGameSessions();
+    List<Raba3> retrieveAllGameSessions(Long idJeux);
     List<Raba3> retrieveAllGameSessions2();
+
+    List<Raba3> retrieveUserGameSession (String userName);
 
     Raba3 retrieveGameSession (Long idRaba3);
 
@@ -18,4 +20,5 @@ public interface Raba3Interface {
     void removeGameSession (Long idRaba3);
 
     Raba3 addGameSessionAndAssignToGame(Raba3 raba3, long idJeux);
+
 }

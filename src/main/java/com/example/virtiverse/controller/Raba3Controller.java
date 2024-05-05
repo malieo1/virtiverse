@@ -10,14 +10,15 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/SessionJeux")
+@CrossOrigin(origins = "http://localhost:4200")
 
 public class Raba3Controller {
     Raba3Service raba3Service;
 
-    @GetMapping("/retrieveAllGameSessions")
-    public List<Raba3> retrieveAllGameSessions() {
+    @GetMapping("/retrieveAllGameSessions/{idJeux}")
+    public List<Raba3> retrieveAllGameSessions(@PathVariable("idJeux") Long idJeux) {
 
-        return raba3Service.retrieveAllGameSessions();
+        return raba3Service.retrieveAllGameSessions(idJeux);
     }
 
     @GetMapping("/retrieveAllGameSessions2")
@@ -29,6 +30,11 @@ public class Raba3Controller {
     @GetMapping("/retrieveGameSession/{idRaba3}")
     public Raba3 retrieveGameSession(@PathVariable("idRaba3") Long idRaba3) {
         return raba3Service.retrieveGameSession(idRaba3);
+    }
+
+    @GetMapping("/retrieveUserGameSession/{userName}")
+    public List<Raba3> retrieveUserGameSession(@PathVariable("userName") String userName) {
+        return raba3Service.retrieveUserGameSession(userName);
     }
 
     @PostMapping("/addGameSession")

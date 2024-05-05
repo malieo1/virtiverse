@@ -9,5 +9,8 @@ import java.util.List;
 
 public interface Raba3Repository extends JpaRepository<Raba3,Long> {
 
+    List<Raba3> findByJeux(Jeux jeux);
+
+    List<Raba3> findByUserUserName(String userName);
 
 }

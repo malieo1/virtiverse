@@ -21,14 +21,20 @@ public class Raba3Service implements Raba3Interface {
     Raba3Repository raba3Repository;
     JeuxRepository jeuxRepository;
     @Override
-    public List<Raba3> retrieveAllGameSessions() {
-        return raba3Repository.findAll();
+    public List<Raba3> retrieveAllGameSessions(Long idJeux) {
+        Jeux jeux = jeuxRepository.findById(idJeux).orElse(null);
+        return raba3Repository.findByJeux(jeux);
     }
 
     @Override
     public List<Raba3> retrieveAllGameSessions2() {
          Sort sortByDate = Sort.by("dateDebut").descending();
          return raba3Repository.findAll(sortByDate);
+    }
+
+    @Override
+    public List<Raba3> retrieveUserGameSession(String userName) {
+        return raba3Repository.findByUserUserName(userName);
     }
 
     @Override
