@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-
 
 @Entity
 @Getter
@@ -15,22 +15,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
-
-
-
-public class LostandFound {
+public class Messages  {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     long idPub;
-     String name;
-     String location;
-     String description;
-     String status;
-     String image;
-     String datePub;
-     long num_tel;
-     @ManyToOne(cascade = CascadeType.ALL)
-     @JsonIgnore
-     User iduser;
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    long idmessage;
+    String content;
+    LocalDate sendat;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    User iduser;
+    @ManyToOne(cascade = CascadeType.ALL)
+    LostandFound idpub ;
 
 }
