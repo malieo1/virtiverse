@@ -7,8 +7,10 @@ import java.util.List;
 
 public interface MessageInterface {
     List<Messages> retrieveAllMessages();
-    Messages addMessage(Messages messages);
+    Messages addMessage(Messages messages,Long idpub);
     void removemessage (Long idmessage);
     Messages retrievemessage (Long idmessage);
     Messages updatemessage (Messages messages);
+
+    List<Messages> retrievebyitem(Long idpub);
 }

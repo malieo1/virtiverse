@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/message")
 @RestController
 @AllArgsConstructor
@@ -18,9 +18,9 @@ public class MessageController {
         return messageInterface.retrieveAllMessages();
     }
 
-    @PostMapping("addMessage")
-    public Messages addMessage(@RequestBody Messages messages) {
-        return messageInterface.addMessage(messages);
+    @PostMapping("addMessage/{idpub}")
+    public Messages addMessage(@RequestBody Messages messages,@PathVariable("idpub")Long idpub) {
+        return messageInterface.addMessage(messages,idpub);
     }
 
     @DeleteMapping("/removemessage/{idmessage}")
@@ -36,5 +36,10 @@ public class MessageController {
     @PutMapping("/updatemessage")
     public Messages updatemessage(@RequestBody Messages messages) {
         return messageInterface.updatemessage(messages);
+    }
+
+    @GetMapping("/retrievebyitem/{idpub}")
+    public List<Messages> retrievebyitem(@PathVariable("idpub") Long idpub) {
+        return messageInterface.retrievebyitem(idpub);
     }
 }

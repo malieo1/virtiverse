@@ -21,15 +21,16 @@ import java.time.LocalDate;
 public class LostandFound {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     long id_pub;
+     long idPub;
      String name;
      String location;
-     String descripttion;
+     String description;
      String status;
      String image;
-     LocalDate datePub;
+     String datePub;
      long num_tel;
      @ManyToOne(cascade = CascadeType.ALL)
      @JsonIgnore
      User iduser;
+
 }

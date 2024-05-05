@@ -25,7 +25,6 @@ public class Messages  {
     @JsonIgnore
     User iduser;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     LostandFound idpub ;
 
 }
