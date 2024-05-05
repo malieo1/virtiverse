@@ -43,4 +43,8 @@ public interface IPubItemService {
 
 
     PubItem updatePubitem(PubItem updatedPubItem);
+
+    List<PubItem> getPubItemsByPrice(float price);
+
+    /// PubItem updatePubItem(PubItem updatedPubItem, MultipartFile imageFile) throws IOException;
 }

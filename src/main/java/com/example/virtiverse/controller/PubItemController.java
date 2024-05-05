@@ -49,6 +49,7 @@ public class PubItemController {
         PubItem updatedItem = iPubItemService.updatePubitem(updatedPubItem);
         return ResponseEntity.ok(updatedItem);
     }
+
     @DeleteMapping("/removePub/{id}")
     public void deletePubitem(@PathVariable("id") Long id_pub) {
         iPubItemService.deletePubitem(id_pub);
@@ -111,6 +112,13 @@ public class PubItemController {
     @GetMapping("/user/{userId}")
     public List<PubItem> getPubItemsByUserId(@PathVariable Integer userId) {
         return iPubItemService.getPubItemsByUserId(userId);
+    }
+
+
+    @GetMapping("/byPrice/{price}")
+    public ResponseEntity<List<PubItem>> getPubItemsByPrice(@PathVariable float price) {
+        List<PubItem> pubItemsWithSamePrice = iPubItemService.getPubItemsByPrice(price);
+        return new ResponseEntity<>(pubItemsWithSamePrice, HttpStatus.OK);
     }
 
 }

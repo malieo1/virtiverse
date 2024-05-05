@@ -132,6 +132,8 @@ public class PubItemServiceImp implements IPubItemService {
     }
 
 
+
+
     public List<PubItem> filterByPriceRange(float minPrice, float maxPrice) {
         return pubItemRepository.findAll().stream()
                 .filter(pubItem -> pubItem.getPrix() >= minPrice && pubItem.getPrix() <= maxPrice)
@@ -203,6 +205,13 @@ public class PubItemServiceImp implements IPubItemService {
         List<PubItem> pubItems = pubItemRepository.findByUserId(userId);
         pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
         return pubItems;
+    }
+
+
+    public List<PubItem> getPubItemsByPrice(float price) {
+        List<PubItem> pubItemsWithSamePrice = pubItemRepository.findByPrix(price);
+        pubItemsWithSamePrice.forEach(this::constructImageUrl); // Construct image URL for each item
+        return pubItemsWithSamePrice;
     }
 
 }

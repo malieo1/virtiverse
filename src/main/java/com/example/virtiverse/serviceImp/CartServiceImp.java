@@ -106,12 +106,18 @@ public class CartServiceImp implements ICartService {
         Optional<Cart> cartOptional = cartRepository.findById(cartId);
         if (cartOptional.isPresent()) {
             Cart cart = cartOptional.get();
-            return new ArrayList<>(cart.getPubItems());
+            List<PubItem> pubItems = new ArrayList<>(cart.getPubItems());
+
+            // Construct image URLs for each PubItem
+            for (PubItem pubItem : pubItems) {
+                constructImageUrl(pubItem);
+            }
+
+            return pubItems;
         } else {
             throw new IllegalArgumentException("Cart not found with id: " + cartId);
         }
     }
-
 
     @Override
     public List<Cart> getAllCartsWithProducts() {
