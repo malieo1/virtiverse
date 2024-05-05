@@ -34,14 +34,14 @@ public class CartController {
     }
 
     @PostMapping("/user/{id}")
-    public ResponseEntity<Cart> createCartForUser(@PathVariable Integer id) {
+    public ResponseEntity<Cart> createCartForUser(@PathVariable Long id) {
         Cart cart = iCartService.createCartForUser(id);
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
     }
 
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<Cart> getCartForUser(@PathVariable Integer id) {
+    public ResponseEntity<Cart> getCartForUser(@PathVariable Long id) {
         try {
             Cart cart = iCartService.getCartByUserId(id);
             return ResponseEntity.ok(cart);
@@ -100,7 +100,7 @@ public class CartController {
 
 
     @GetMapping("/user/{userId}/pubitems")
-    public ResponseEntity<List<PubItem>> getPubItemsInCartByUserId(@PathVariable Integer userId) {
+    public ResponseEntity<List<PubItem>> getPubItemsInCartByUserId(@PathVariable Long userId) {
         try {
             List<PubItem> pubItems = iCartService.getPubItemsInCartByUserId(userId);
             return ResponseEntity.ok(pubItems);

@@ -30,7 +30,7 @@ public class PubItemServiceImp implements IPubItemService {
     PubItemRepository pubItemRepository;
     UserRepository userRepository;
     @Override
-    public PubItem addPubitem(@Valid PubItem pubItem , MultipartFile multipartFile , Integer id) throws IOException {
+    public PubItem addPubitem(@Valid PubItem pubItem , MultipartFile multipartFile , Long id) throws IOException {
         if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Description is required");
         }
@@ -79,8 +79,6 @@ public class PubItemServiceImp implements IPubItemService {
         // Perform validation if needed
         return pubItemRepository.save(pubItem);
     }
-
-
 
 
     @Override
@@ -151,7 +149,7 @@ public class PubItemServiceImp implements IPubItemService {
 
 
     @Override
-    public PubItem addPubitemm(@Valid PubItem pubItem, Integer id) {
+    public PubItem addPubitemm(@Valid PubItem pubItem, Long id) {
         if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {
             throw new IllegalArgumentException("Description is required");
         }
@@ -201,7 +199,7 @@ public class PubItemServiceImp implements IPubItemService {
         return items;
     }
 
-    public List<PubItem> getPubItemsByUserId(Integer userId) {
+    public List<PubItem> getPubItemsByUserId(Long userId) {
         List<PubItem> pubItems = pubItemRepository.findByUserId(userId);
         pubItems.forEach(this::constructImageUrl); // Construct image URL for each item
         return pubItems;

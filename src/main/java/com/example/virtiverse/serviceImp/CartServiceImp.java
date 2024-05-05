@@ -57,7 +57,7 @@ public class CartServiceImp implements ICartService {
     }
 
 
-    public Cart getCartByUserId(Integer userId) {
+    public Cart getCartByUserId(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -67,7 +67,7 @@ public class CartServiceImp implements ICartService {
         }
     }
     @Override
-    public Cart createCartForUser(Integer id) {
+    public Cart createCartForUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -143,7 +143,7 @@ public class CartServiceImp implements ICartService {
 
 
 
-    public List<PubItem> getPubItemsInCartByUserId(Integer userId) {
+    public List<PubItem> getPubItemsInCartByUserId( Long userId) {
         Cart cart = cartRepository.findByUserId(userId)
                 .orElseThrow(() -> new NoSuchElementException("Cart not found for user with ID: " + userId));
 

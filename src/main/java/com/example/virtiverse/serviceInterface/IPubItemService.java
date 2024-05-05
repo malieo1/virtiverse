@@ -13,7 +13,7 @@ public interface IPubItemService {
 
 
 
-    PubItem addPubitem (PubItem pubItem , MultipartFile multipartFile , Integer id) throws IOException;
+    PubItem addPubitem (PubItem pubItem , MultipartFile multipartFile , Long id) throws IOException;
 
     List<PubItem> getPubitem ();
     void deletePubitem (Long id_pub);
@@ -28,14 +28,14 @@ public interface IPubItemService {
 
     List<PubItem> getPubItemsSortedByEtatDesc();
 
-    PubItem addPubitemm(@Valid PubItem pubItem, Integer id);
+    PubItem addPubitemm(@Valid PubItem pubItem, Long id);
 
     Optional<PubItem> getPubItemById(Long id_pub);
 
 
     List<PubItem> getItemsSortedByEtat(Etat etat);
 
-    List<PubItem> getPubItemsByUserId(Integer id);
+    List<PubItem> getPubItemsByUserId(Long id);
 
     List<PubItem> getPubItemsSortedByPriceAS();
 

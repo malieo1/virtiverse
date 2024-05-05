@@ -29,7 +29,7 @@ public interface PubItemRepository extends JpaRepository<PubItem,Long>{
 
     List<PubItem> findByUser(User user);
 
-    List<PubItem> findByUserId(Integer userId);
+    List<PubItem> findByUserId(Long userId);
     List<PubItem> findByPrix(float prix);
 
 

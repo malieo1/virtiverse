@@ -37,7 +37,7 @@ public class PubItemController {
 
 
     @PostMapping("/addPub")
-    public PubItem addPubitem( @RequestPart("pubitem") String pubItem ,   @RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Integer id) throws IOException {
+    public PubItem addPubitem( @RequestPart("pubitem") String pubItem ,   @RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Long id) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         PubItem pubItemObject = objectMapper.readValue(pubItem, PubItem.class);
         System.out.println(pubItemObject);
@@ -93,7 +93,7 @@ public class PubItemController {
     }
 
     @PostMapping ("/addPubItemm")
-    public ResponseEntity<PubItem> addPubItemm(@Valid @RequestBody PubItem pubItem, @RequestParam Integer id) {
+    public ResponseEntity<PubItem> addPubItemm(@Valid @RequestBody PubItem pubItem, @RequestParam Long id) {
         PubItem addedPubItem = iPubItemService.addPubitemm(pubItem, id);
         return new ResponseEntity<>(addedPubItem, HttpStatus.CREATED);
     }
@@ -110,7 +110,7 @@ public class PubItemController {
     }
 
     @GetMapping("/user/{userId}")
-    public List<PubItem> getPubItemsByUserId(@PathVariable Integer userId) {
+    public List<PubItem> getPubItemsByUserId(@PathVariable Long userId) {
         return iPubItemService.getPubItemsByUserId(userId);
     }
 

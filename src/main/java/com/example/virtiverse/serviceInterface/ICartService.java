@@ -16,7 +16,7 @@ public interface ICartService {
 
     void addItemToCart(Long cartId, PubItem pubItem);
 
-    Cart createCartForUser(Integer id);
+    Cart createCartForUser(Long id);
 
     void removeItemFromCart(Long cartId, Long itemId);
 
@@ -28,8 +28,8 @@ public interface ICartService {
 
     List<Cart> searchCarts(Long id, BigDecimal total, String pubItems);
 
-    Cart getCartByUserId(Integer id);
+    Cart getCartByUserId(Long id);
 
-    List<PubItem> getPubItemsInCartByUserId(Integer userId);
+    List<PubItem> getPubItemsInCartByUserId(Long userId);
 }
 
