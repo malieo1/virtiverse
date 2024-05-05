@@ -59,4 +59,7 @@ public class CovoiturageService implements CovoiturageInterface {
             throw new RuntimeException("Covoiturage not found with id: " + covId);
         }
     }
+    /*
+
+    */
 }
