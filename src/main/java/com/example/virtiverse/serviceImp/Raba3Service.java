@@ -34,7 +34,7 @@ public class Raba3Service implements Raba3Interface {
 
     @Override
     public List<Raba3> retrieveUserGameSession(String userName) {
-        return raba3Repository.findByUserUserName(userName);
+        return raba3Repository.findByUserName(userName);
     }
 
     @Override

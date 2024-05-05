@@ -1,3 +1,4 @@
+
 package com.example.virtiverse.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,8 +39,4 @@ public class Raba3 implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     Jeux jeux ;
-
-
-
-
 }

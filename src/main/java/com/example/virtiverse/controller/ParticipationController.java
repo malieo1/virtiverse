@@ -1,7 +1,7 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Participation;
-import com.example.virtiverse.repository.UserRep;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceImp.ServiceEmailEvent;
 import com.example.virtiverse.serviceInterface.IEmailEventService;
 import com.example.virtiverse.serviceInterface.IParticipationService;
@@ -23,7 +23,7 @@ public class ParticipationController {
     IParticipationService participationService;
     IEmailEventService emailEventService;
     ServiceEmailEvent serviceEmail;
-    UserRep userRep;
+    OurUserRepo userRep;
 
     @GetMapping("/ParticipationController")
     public List<Participation> retrieveAllParticipations() {

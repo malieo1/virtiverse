@@ -4,8 +4,8 @@ import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.Participation;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.EventRep;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.repository.ParticipationRep;
-import com.example.virtiverse.repository.UserRep;
 import com.example.virtiverse.serviceInterface.IParticipationService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ import java.util.Optional;
 public class ServiceParticipation implements IParticipationService {
     ParticipationRep participationRep;
     EventRep eventRep;
-    UserRep userRep;
+    OurUserRepo userRep;
 
     @Override
     public List<Participation> retrieveAllParticipations() {

@@ -1,5 +1,5 @@
-package com.example.virtiverse.entities;
 
+package com.example.virtiverse.entities;
 import com.example.virtiverse.entities.enums.TypeJeux;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -32,7 +32,4 @@ public class Jeux implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     User iduser;
-
-
-
 }

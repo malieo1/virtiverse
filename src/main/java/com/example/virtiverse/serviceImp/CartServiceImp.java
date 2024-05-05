@@ -4,11 +4,10 @@ import com.example.virtiverse.entities.Cart;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.CartRepository;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.repository.PubItemRepository;
-import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.ICartService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class CartServiceImp implements ICartService {
 
     CartRepository cartRepository;
-    UserRepository userRepository;
+    OurUserRepo ourUserRepo;
 
     PubItemRepository pubItemRepository;
     @Override
@@ -58,7 +57,7 @@ public class CartServiceImp implements ICartService {
 
 
     public Cart getCartByUserId(Long userId) {
-        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<User> userOptional = ourUserRepo.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             return cartRepository.findByUser(user).orElseThrow(() -> new NoSuchElementException("Cart not found for user with ID: " + userId));
@@ -68,7 +67,7 @@ public class CartServiceImp implements ICartService {
     }
     @Override
     public Cart createCartForUser(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = ourUserRepo.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             Cart cart = new Cart();

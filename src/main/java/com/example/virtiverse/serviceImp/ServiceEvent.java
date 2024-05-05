@@ -3,12 +3,8 @@ package com.example.virtiverse.serviceImp;
 import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.EventRep;
-import com.example.virtiverse.repository.UserRep;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.IEventService;
-import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -16,8 +12,6 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -32,7 +26,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ServiceEvent implements IEventService {
     EventRep eventRep;
-    UserRep userRep;
+    OurUserRepo userRep;
     @Override
     public List<Event> retrieveAllEvents() {
         return eventRep.findAll();

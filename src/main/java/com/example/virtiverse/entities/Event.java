@@ -1,12 +1,10 @@
 package com.example.virtiverse.entities;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
@@ -23,16 +21,16 @@ import java.util.Set;
 public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long idEvent;
-     String nomEvent;
-     String organisateurEvent;
-     String descriptionEvent;
-     String lieuEvent;
+    Long idEvent;
+    String nomEvent;
+    String organisateurEvent;
+    String descriptionEvent;
+    String lieuEvent;
     LocalDate dateDebutEvent;
     LocalDate dateFinEvent;
-     float prixEvent;
-     int capaciteEvent;
-     String imageEvent;
+    float prixEvent;
+    int capaciteEvent;
+    String imageEvent;
     String statut;
 
 
@@ -44,5 +42,4 @@ public class Event implements Serializable {
     @OneToMany(mappedBy = "event")
     @Cascade(CascadeType.ALL)
     Set<Participation> participations;
-
 }

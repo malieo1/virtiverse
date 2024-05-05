@@ -5,8 +5,8 @@ import com.example.virtiverse.entities.Etat;
 import com.example.virtiverse.entities.FileUploadUtil;
 import com.example.virtiverse.entities.PubItem;
 import com.example.virtiverse.entities.User;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.repository.PubItemRepository;
-import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.IPubItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class PubItemServiceImp implements IPubItemService {
 
     PubItemRepository pubItemRepository;
-    UserRepository userRepository;
+    OurUserRepo userRepository;
     @Override
     public PubItem addPubitem(@Valid PubItem pubItem , MultipartFile multipartFile , Long id) throws IOException {
         if (pubItem.getDescription() == null || pubItem.getDescription().isEmpty()) {

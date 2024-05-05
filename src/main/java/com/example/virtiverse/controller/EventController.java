@@ -1,7 +1,7 @@
 package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Event;
-import com.example.virtiverse.repository.UserRep;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.IEmailEventService;
 import com.example.virtiverse.serviceInterface.IEventService;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 public class EventController {
     IEventService eventService;
     IEmailEventService emailEventService;
-    UserRep userRep;
+    OurUserRepo userRep;
     @GetMapping("/EventController")
     public List<Event> retrieveAllEvents() {
         return eventService.retrieveAllEvents();

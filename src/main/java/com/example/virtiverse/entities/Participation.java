@@ -1,5 +1,4 @@
 package com.example.virtiverse.entities;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,4 +29,5 @@ public class Participation implements Serializable {
     @JsonIgnore
     @ManyToOne
     User user;
+
 }

@@ -1,5 +1,4 @@
 package com.example.virtiverse.entities;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +16,7 @@ public class Commentaire implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_commentaire;
+
 
     @Column(nullable = true)
     private String contenu;

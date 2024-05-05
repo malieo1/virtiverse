@@ -3,8 +3,8 @@ package com.example.virtiverse.controller;
 
 import com.example.virtiverse.entities.Cart;
 import com.example.virtiverse.entities.PubItem;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.repository.PubItemRepository;
-import com.example.virtiverse.repository.UserRepository;
 import com.example.virtiverse.serviceInterface.ICartService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CartController {
 
     ICartService iCartService;
-    private UserRepository userRepository;
+    private OurUserRepo userRepository;
     PubItemRepository pubItemRepository;
 
     @GetMapping("/{cartId}")
