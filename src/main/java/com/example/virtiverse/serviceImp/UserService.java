@@ -38,12 +38,16 @@ public class UserService implements userImp {
 
     @Override
     public User updateUser(User user , MultipartFile multipartFile) throws IOException {
+        System.out.println();
         User user1 = ourUserRepo.getById(user.getId());
+
+        System.out.println("hedhaa userr");
+        System.out.println(user1);
         String oldFileName = user1.getImage();
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         String uploadDir = "C:/xampp/htdocs/img/" ;
         user.setImage(fileName);
-      if(!user1.getImage().equals(user.getImage())) {
+      if(user1.getImage() != null && !user1.getImage().equals(user.getImage())) {
 
           File oldFile = new File(uploadDir + oldFileName);
           oldFile.delete(); // Delete
