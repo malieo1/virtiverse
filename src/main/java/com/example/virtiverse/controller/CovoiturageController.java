@@ -10,17 +10,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/Covoiturage")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class CovoiturageController {
     CovoiturageInterface covoiturageInterface;
     SmsService smsService;
 
     @GetMapping("/retreiveCovoiturages")
-    @CrossOrigin(origins = "http://localhost:4200")
     public List<Covoiturage> retreiveCovoiturages() {
         return covoiturageInterface.retreiveCovoiturages();
     }
 @PostMapping("/AddCovoiturage")
-@CrossOrigin(origins = "http://localhost:4200")
+
     public Covoiturage AddCovoiturage(@RequestBody Covoiturage covoiturage) {
         return covoiturageInterface.AddCovoiturage(covoiturage);
     }
@@ -29,13 +29,22 @@ public class CovoiturageController {
         return covoiturageInterface.updateCovoiturage(covoiturage);
     }
 @DeleteMapping("/removeCovoiturage/{idcov}")
-@CrossOrigin(origins = "http://localhost:4200")
     public void removeCovoiturage(@PathVariable("idcov") Long id_cov) {
         covoiturageInterface.removeCovoiturage(id_cov);
 
     }
+
 @GetMapping("/retreiveCov/{idcov}")
     public Covoiturage retreiveCov(@PathVariable("idcov") Long id_cov) {
         return covoiturageInterface.retreiveCov(id_cov);
+    }
+
+    @GetMapping("/SendSms")
+    public void sendSms(String to, String message) {
+        smsService.sendSms(to, "Virtiverse");
+    }
+    @PutMapping("/{covId}/nombre_placecov")
+    public void updateNombrePlacecov(Long covId, int newNombrePlacecov) {
+        covoiturageInterface.updateNombrePlacecov(covId, newNombrePlacecov);
     }
 }

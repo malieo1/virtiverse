@@ -8,6 +8,7 @@ import com.example.virtiverse.serviceInterface.AvisInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,6 +25,7 @@ public class AvisService implements AvisInterface {
     public Avis AddAvis(Avis avis, Long id_cov) {
         Covoiturage cov = covoiturageRepository.findById(id_cov).orElse(null);
         avis.setCovoiturage(cov);
+        avis.setDate_avis(LocalDate.now());
         return avisRepository.save(avis);
     }
 

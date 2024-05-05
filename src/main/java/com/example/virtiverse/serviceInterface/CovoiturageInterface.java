@@ -10,4 +10,5 @@ public interface CovoiturageInterface {
     Covoiturage updateCovoiturage (Covoiturage covoiturage);
     void removeCovoiturage (Long id_cov);
     Covoiturage retreiveCov(Long id_cov);
+     void updateNombrePlacecov(Long covId, int newNombrePlacecov);
 }

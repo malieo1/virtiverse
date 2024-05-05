@@ -19,6 +19,8 @@ public class AvisController {
     public List<Avis> retreiveAvis() {
         return avisInterface.retreiveAvis();
     }
+
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/AddAvis/{id_cov}")
     public Avis AddAvis(@RequestBody Avis avis,@PathVariable("id_cov") Long id_cov) {
         return avisInterface.AddAvis(avis,id_cov);
