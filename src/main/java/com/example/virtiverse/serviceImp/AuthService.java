@@ -5,14 +5,22 @@ import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.util.JWTUtils;
 import lombok.AllArgsConstructor;
+import org.hibernate.dialect.SybaseDialect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.HashMap;
+import java.util.Properties;
+
 @AllArgsConstructor
 @Service
 public class AuthService {
@@ -26,6 +34,18 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
     @Autowired
     UserService userService ;
+
+
+    @Autowired
+    private JavaMailSender emailSender;
+
+    public void sendEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
+    }
 
 
     public ReqRes signUp(ReqRes registrationRequest) {
@@ -65,8 +85,35 @@ public class AuthService {
             User ourUserResult = ourUserRepo.save(ourUsers);
 
             if (ourUserResult != null && ourUserResult.getId() > 0) {
+
+                JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+                mailSender.setHost("smtp.gmail.com");
+                mailSender.setPort(25);
+                mailSender.setUsername("darkamin22@gmail.com");
+                mailSender.setPassword("ugap mhkr ouct wtnb");
+
+                // Enable TLS/SSL
+                Properties props = mailSender.getJavaMailProperties();
+                props.put("mail.transport.protocol", "smtp");
+                props.put("mail.smtp.ssl.trust", "*");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true"); // Enable STARTTLS
+
+
+
                 resp.setOurUsers(ourUserResult);
-                resp.setMessage("User Saved Successfully");
+                // Create a simple mail message
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(registrationRequest.getEmail());
+                message.setSubject("Registration Successful");
+                message.setText("Dear " + registrationRequest.getName() + ",\n\nYour registration was successful.");
+
+                // Send the email
+                mailSender.send(message);
+
+                // Set response message
+                resp.setMessage("User Saved Successfully. Confirmation email sent.");
+
                 resp.setStatusCode(200);
             }
         } catch (DataIntegrityViolationException e) {
