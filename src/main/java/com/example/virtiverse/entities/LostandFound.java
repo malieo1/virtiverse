@@ -30,7 +30,7 @@ public class LostandFound {
      String image;
      String datePub;
      long num_tel;
-     @ManyToOne(cascade = CascadeType.ALL)
+     @ManyToOne
 
      User iduser;
 

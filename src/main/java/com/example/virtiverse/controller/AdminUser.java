@@ -1,10 +1,8 @@
 package com.example.virtiverse.controller;
 
-
 import com.example.virtiverse.dto.ReqRes;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.serviceImp.AuthService;
-
 import com.example.virtiverse.serviceImp.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.websocket.server.PathParam;
@@ -44,7 +42,7 @@ public class AdminUser {
         System.out.println(authentication.getDetails()); // get remote ip
         System.out.println(authentication.getName()); //returns the email because the email is the unique identifier
         return authentication.getName(); // returns the email
-     }
+    }
 
     @PostMapping("/public/addimage")
     User addImageToUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("id") Long id) throws IOException {
@@ -53,15 +51,13 @@ public class AdminUser {
     }
 
 
-
-    @GetMapping("/public/getUserById/{id}")
-
+    @GetMapping("/admin/getUserById/{id}")
     User getUserById(@PathVariable("id")Long id){
         return userService.getUserById(id);
     }
 
     @DeleteMapping("/deleteUser/{id}")
-             void deleteUser(@PathVariable("id") Long id){
+    void deleteUser(@PathVariable("id") Long id){
         userService.deletUser(id);
 
     }
@@ -70,21 +66,18 @@ public class AdminUser {
 
 
 
-    @PostMapping("/public/adduser")
 
+
+
+    @PostMapping("/public/addUser")
     User addUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("user") String user) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         User user1 = objectMapper.readValue(user, User.class);
         System.out.println(user1);
-
-
-       return userService.addUser(user1 , multipartFile);
+        return userService.addUser(user1 , multipartFile);
 
     }
-
-
-
     @PostMapping("/public/update")
     User updateUser(@RequestPart("image") MultipartFile multipartFile , @RequestParam("user") String user) throws IOException {
 
@@ -94,9 +87,7 @@ public class AdminUser {
         return userService.updateUser(user1 , multipartFile);
 
     }
-
-    @GetMapping("/public/getUsers")
-
+    @GetMapping("/admin/getUsers")
     List<User> getUsers(){
         return userService.getusers();
     }

@@ -18,7 +18,7 @@ public class SmsService {
     @Value("AC5936d772240f1ff1fb44d0e68f492694")
     private String ACCOUNT_SID;
 
-    @Value("1044cd37cd1e97ff133b9feb70ef9d6c")
+    @Value("f41359779768071db038b99068f245c9")
     private String AUTH_TOKEN;
 
     @Value("+19387661632")
