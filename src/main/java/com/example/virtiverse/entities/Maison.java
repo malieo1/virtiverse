@@ -29,7 +29,6 @@ public class Maison implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     User user;
-
     @ManyToMany (cascade = CascadeType.ALL)
     List<User> demandeurs;
 

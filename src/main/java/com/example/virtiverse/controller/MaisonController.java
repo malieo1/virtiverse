@@ -80,9 +80,9 @@ public class MaisonController {
     public Maison ajouterDemandeur(@PathVariable Long maisonId, @RequestBody User demandeur) {
         return maisonService.ajouterDemandeur(maisonId, demandeur);
     }
-    @DeleteMapping("/{maisonId}/demandeurs/{nomDemandeur}")
-    public void supprimerDemandeur(@PathVariable Long maisonId, @PathVariable String nomDemandeur) {
-        maisonService.supprimerDemandeur(maisonId, nomDemandeur);
+    @DeleteMapping("/{maisonId}/demandeurs/{idemandeur}")
+    public void supprimerDemandeur(@PathVariable Long maisonId, @PathVariable Long idemandeur) {
+        maisonService.supprimerDemandeur(maisonId, idemandeur);
     }
 
     @GetMapping("/list_page")
@@ -92,5 +92,6 @@ public class MaisonController {
         Pageable pageable = PageRequest.of(page, size);
         return maisonService.findAllMaisonsPage(pageable);
     }
+
 
 }
