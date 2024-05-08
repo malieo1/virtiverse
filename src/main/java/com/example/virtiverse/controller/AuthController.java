@@ -14,7 +14,6 @@ public class AuthController {
     private AuthService authService;
 
 
-
     @PostMapping("/signup")
     public ResponseEntity<ReqRes> signUp(@RequestBody ReqRes signUpRequest){
         return ResponseEntity.ok(authService.signUp(signUpRequest));
@@ -28,10 +27,12 @@ public class AuthController {
         return ResponseEntity.ok(authService.refreshToken(refreshTokenRequest));
     }
 
+
     @PostMapping("/forgotPassword")
     public ReqRes forgotPassword(@RequestPart("email") String email) {
         return authService.forgotPassword(email);
     }
+
 
 
 }

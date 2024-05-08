@@ -43,3 +43,4 @@ public class Event implements Serializable {
     @Cascade(CascadeType.ALL)
     Set<Participation> participations;
 }
+

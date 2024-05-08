@@ -1,6 +1,8 @@
 
+
 package com.example.virtiverse.entities;
 
+import com.example.virtiverse.entities.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,3 +42,4 @@ public class Raba3 implements Serializable {
     @JsonIgnore
     Jeux jeux ;
 }
+

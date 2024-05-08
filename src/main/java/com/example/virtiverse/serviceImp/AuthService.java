@@ -3,7 +3,7 @@ package com.example.virtiverse.serviceImp;
 import com.example.virtiverse.dto.ReqRes;
 import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.OurUserRepo;
-import com.example.virtiverse.util.FileUploadUtil;
+
 import com.example.virtiverse.util.JWTUtils;
 import lombok.AllArgsConstructor;
 import org.hibernate.dialect.SybaseDialect;
@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,7 @@ import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.UUID;
+
 
 @AllArgsConstructor
 @Service
@@ -46,7 +48,13 @@ public class AuthService {
     private JavaMailSender emailSender;
 
 
-
+    public void sendEmail(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        emailSender.send(message);
+    }
 
 
 
@@ -170,6 +178,7 @@ public class AuthService {
 
 
 
+
     public ReqRes forgotPassword(String email) {
         ReqRes resp = new ReqRes();
         System.out.println(email);
@@ -222,4 +231,5 @@ public class AuthService {
         String newPassword = UUID.randomUUID().toString().substring(0, 8); // Random UUID as password
         return newPassword;
     }
+
 }

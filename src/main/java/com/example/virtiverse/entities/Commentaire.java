@@ -1,4 +1,5 @@
 package com.example.virtiverse.entities;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,12 +14,15 @@ import java.io.Serializable;
 @Builder
 public class Commentaire implements Serializable {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_commentaire;
 
 
+
     @Column(nullable = true)
+
     private String contenu;
 
     @ManyToOne

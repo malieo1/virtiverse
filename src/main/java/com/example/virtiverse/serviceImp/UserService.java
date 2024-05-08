@@ -5,6 +5,8 @@ import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.userImp;
 import com.example.virtiverse.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,8 +25,10 @@ public class UserService implements userImp {
 
 @Autowired
     OurUserRepo ourUserRepo;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Override
     public User addUser(User user , MultipartFile multipartFile) throws IOException {
@@ -42,6 +46,9 @@ public class UserService implements userImp {
         ourUsers.setImage(fileName);        ourUsers.setName(user.getName());
         ourUsers.setPhoneNumber(user.getPhoneNumber());
         ourUserRepo.save(ourUsers);
+
+
+
 
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
