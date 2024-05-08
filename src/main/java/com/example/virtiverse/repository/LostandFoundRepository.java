@@ -11,4 +11,6 @@ public interface LostandFoundRepository extends JpaRepository<LostandFound , Lon
     List<LostandFound> findByStatusOrderByDatePub(String status);
     List<LostandFound> findByNameOrderByDatePub(String name);
 
+    List<LostandFound> findByIduserId(long id);
+
 }

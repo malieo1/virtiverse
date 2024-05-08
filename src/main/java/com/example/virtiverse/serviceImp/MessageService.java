@@ -2,8 +2,10 @@ package com.example.virtiverse.serviceImp;
 
 import com.example.virtiverse.entities.LostandFound;
 import com.example.virtiverse.entities.Messages;
+import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.LostandFoundRepository;
 import com.example.virtiverse.repository.MessageRepository;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.MessageInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.List;
 public class MessageService implements MessageInterface {
     MessageRepository messageRepository;
     LostandFoundRepository lostandFoundRepository;
+    OurUserRepo userrepo;
     @Override
     public List<Messages> retrieveAllMessages() {
         return messageRepository.findAll();
@@ -27,9 +30,16 @@ public class MessageService implements MessageInterface {
     }
 
     @Override
-    public Messages addMessage(Messages messages,Long idpub) {
+    public List<Messages> retrievebymessagebyuser(Long id) {
+        return messageRepository.findByIduserId(id);
+    }
+
+    @Override
+    public Messages addMessage(Messages messages,Long idpub , long iduser) {
         LostandFound lostandFound = lostandFoundRepository.findById(idpub).orElse(null);
         messages.setSendat(LocalDate.now());
+        User user = userrepo.findById(iduser).orElse(null);
+        messages.setIduser(user);
         messages.setIdpub(lostandFound);
         return messageRepository.save(messages);
     }

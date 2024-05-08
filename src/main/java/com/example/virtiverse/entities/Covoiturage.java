@@ -1,4 +1,5 @@
 package com.example.virtiverse.entities;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,7 @@ public class Covoiturage {
 
      Long id_cov;
      int nombre_placecov;
+    @JsonFormat(pattern = "yyyy-MM-dd")
      LocalDate date_depart;
      String lieu_depart;
      String destination;

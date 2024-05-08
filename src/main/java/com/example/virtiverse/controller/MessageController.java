@@ -18,9 +18,9 @@ public class MessageController {
         return messageInterface.retrieveAllMessages();
     }
 
-    @PostMapping("addMessage/{idpub}")
-    public Messages addMessage(@RequestBody Messages messages,@PathVariable("idpub")Long idpub) {
-        return messageInterface.addMessage(messages,idpub);
+    @PostMapping("addMessage/{idpub}/{iduser}")
+    public Messages addMessage(@RequestBody Messages messages,@PathVariable("idpub")Long idpub ,@PathVariable("iduser")Long iduser) {
+        return messageInterface.addMessage(messages,idpub , iduser);
     }
 
     @DeleteMapping("/removemessage/{idmessage}")
@@ -41,5 +41,11 @@ public class MessageController {
     @GetMapping("/retrievebyitem/{idpub}")
     public List<Messages> retrievebyitem(@PathVariable("idpub") Long idpub) {
         return messageInterface.retrievebyitem(idpub);
+
+    }
+
+    @GetMapping("/retrievebymessagebyuser/{id}")
+    public List<Messages> retrievebymessagebyuser(@PathVariable("id") Long id) {
+        return messageInterface.retrievebymessagebyuser(id);
     }
 }
