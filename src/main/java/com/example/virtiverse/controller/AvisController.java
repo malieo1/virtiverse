@@ -21,9 +21,9 @@ public class AvisController {
     }
 
     @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/AddAvis/{id_cov}")
-    public Avis AddAvis(@RequestBody Avis avis,@PathVariable("id_cov") Long id_cov) {
-        return avisInterface.AddAvis(avis,id_cov);
+    @PostMapping("/AddAvis/{id_cov}/{id}")
+    public Avis AddAvis(@RequestBody Avis avis,@PathVariable("id_cov") Long id_cov,@PathVariable Long id) {
+        return avisInterface.AddAvis(avis,id_cov,id);
     }
 @PutMapping("/updateAvis")
     public Avis updateAvis(@RequestBody Avis avis) {
@@ -41,5 +41,9 @@ public class AvisController {
 @GetMapping("/FindByCovoiturage/{id_cov}")
     public List<Avis> FindByCovoiturage(@PathVariable("id_cov") Long id_cov) {
         return avisInterface.FindByCovoiturage(id_cov);
+    }
+@GetMapping("/retrieveAllAvisByUser/{id}")
+    public List<Avis> retrieveAllAvisByUser(@PathVariable Long id) {
+        return avisInterface.retrieveAllAvisByUser(id);
     }
 }

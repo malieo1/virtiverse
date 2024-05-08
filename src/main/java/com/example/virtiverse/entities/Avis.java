@@ -1,5 +1,6 @@
 package com.example.virtiverse.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,14 +22,15 @@ public class Avis {
     Long id_avis;
     String objet;
     String description;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate date_avis;
     int statut;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Covoiturage covoiturage;
     @JsonIgnore
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     User iduser;
 
 
