@@ -28,5 +28,10 @@ public class WebConfig implements WebMvcConfigurer {
         configurer.defaultContentType(MediaType.APPLICATION_JSON);
     }
 
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.defaultContentType(MediaType.APPLICATION_JSON);
+    }
+
 
 }

@@ -16,8 +16,7 @@ import java.util.List;
 @Data
 @Entity
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Setter
+ @Setter
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
