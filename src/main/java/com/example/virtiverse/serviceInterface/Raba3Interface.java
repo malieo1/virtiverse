@@ -16,9 +16,15 @@ public interface Raba3Interface {
     Raba3 retrieveGameSession (Long idRaba3);
 
     Raba3 addGameSession(Raba3 raba3);
-    Raba3 updateGameSession(Raba3 raba3);
+    Raba3 updateGameSession(Long idRaba3, Raba3 updatedraba3);
     void removeGameSession (Long idRaba3);
 
     Raba3 addGameSessionAndAssignToGame(Raba3 raba3, long idJeux);
+    Raba3 retieveGameSessionSpecificUser(Long idRaba3, String name);
+    Raba3 addGameSessionAndAssignToGameAndUser(Raba3 raba3, long idJeux, long id);
+
+
+
+
 
 }

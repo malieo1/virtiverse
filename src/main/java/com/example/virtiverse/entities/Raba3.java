@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,14 +30,15 @@ public class Raba3 implements Serializable {
     Date dateDebut;
     Date dateFin;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    Set<User> session;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idRaba3")
+    List<User> users;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnore
     User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JsonIgnore
     Jeux jeux ;
 }
