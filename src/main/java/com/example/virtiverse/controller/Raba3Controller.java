@@ -32,8 +32,8 @@ public class Raba3Controller {
         return raba3Service.retrieveGameSession(idRaba3);
     }
 
-    @GetMapping("/retrieveUserGameSession/{userName}")
-    public List<Raba3> retrieveUserGameSession(@PathVariable("userName") String userName) {
+    @GetMapping("/retrieveUserGameSession/{name}")
+    public List<Raba3> retrieveUserGameSession(@PathVariable("name") String userName) {
         return raba3Service.retrieveUserGameSession(userName);
     }
 
@@ -42,10 +42,10 @@ public class Raba3Controller {
         return raba3Service.addGameSession(raba3);
     }
 
-    @PutMapping("/updateGameSession")
-    public Raba3 updateGameSession(@RequestBody Raba3 raba3) {
+    @PutMapping("/updateGameSession/{idRaba3}")
+    public Raba3 updateGameSession(@PathVariable("idRaba3") Long idRaba3,@RequestBody  Raba3 updatedraba3) {
 
-        return raba3Service.updateGameSession(raba3);
+        return raba3Service.updateGameSession(idRaba3,updatedraba3);
     }
 
     @DeleteMapping("/removeGameSession/{idRaba3}")
@@ -54,8 +54,29 @@ public class Raba3Controller {
         raba3Service.removeGameSession(idRaba3);
     }
 
-    @PostMapping("/addGameSessionAndAssignToGame")
-    public Raba3 addGameSessionAndAssignToGame(Raba3 raba3, long idJeux) {
+    @PostMapping("/addGameSessionAndAssignToGame/{idJeux}")
+    public Raba3 addGameSessionAndAssignToGame(@RequestBody Raba3 raba3,@PathVariable("idJeux") long idJeux) {
         return raba3Service.addGameSessionAndAssignToGame(raba3, idJeux);
+    }
+
+    @GetMapping("/retieveGameSessionSpecificUser/{idRaba3}/{name}")
+    public Raba3 retieveGameSessionSpecificUser(@PathVariable("idRaba3") Long idRaba3,@PathVariable("name") String name) {
+        return raba3Service.retieveGameSessionSpecificUser(idRaba3, name);
+    }
+
+    @PostMapping("/addGameSessionAndAssignToGameAndUser/{idJeux}/{id}")
+
+    public Raba3 addGameSessionAndAssignToGameAndUser(@RequestBody Raba3 raba3, @PathVariable("idJeux") long idJeux,@PathVariable("id") long id) {
+        return raba3Service.addGameSessionAndAssignToGameAndUser(raba3, idJeux, id);
+    }
+
+    @PostMapping("/addUserToSession/{idRaba3}/{id}")
+    public void addUserToSession(@PathVariable("idRaba3") Long idRaba3, @PathVariable("id") Long id) {
+        raba3Service.addUserToSession(idRaba3, id);
+    }
+
+    @DeleteMapping("/removeUserFromSession/{idRaba3}/{id}")
+    public void removeUserFromSession(@PathVariable("idRaba3") Long idRaba3,@PathVariable("id") Long id) {
+        raba3Service.removeUserFromSession(idRaba3, id);
     }
 }
