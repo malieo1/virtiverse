@@ -68,10 +68,10 @@ public class ServiceParticipation implements IParticipationService {
             return participationRep.save(participation);
         }
         else if (capaciteRestante < 0 && event.getCapaciteEvent()==0) {
-            throw new IllegalArgumentException("Désolé, l'évènement est complet.");
+            throw new IllegalArgumentException("We're sorry, this event is complete.");
         }
         else {
-            throw new IllegalArgumentException("Il ne reste que " + event.getCapaciteEvent() + " places pour cet événement.");
+            throw new IllegalArgumentException("Only " + event.getCapaciteEvent() + " places are left for this event.");
         }
     }
 
