@@ -27,10 +27,10 @@ public class Avis {
     int statut;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     Covoiturage covoiturage;
     @JsonIgnore
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     User iduser;
 
 

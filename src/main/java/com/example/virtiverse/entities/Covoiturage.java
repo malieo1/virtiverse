@@ -26,14 +26,14 @@ public class Covoiturage {
      Long id_cov;
      int nombre_placecov;
     @JsonFormat(pattern = "yyyy-MM-dd")
+
      LocalDate date_depart;
      String lieu_depart;
      String destination;
      String description;
 
-     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-     List<User> users;
+     @ManyToOne
+     User userid;
 
     @ManyToMany (cascade = CascadeType.ALL)
     List<User> reservations;

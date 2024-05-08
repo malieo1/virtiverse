@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class ServiceEvent implements IEventService {
+public class    ServiceEvent implements IEventService {
     EventRep eventRep;
     OurUserRepo userRep;
     @Override
