@@ -32,6 +32,8 @@ public class User implements UserDetails {
 
     @JsonIgnore
     @Override
+    @JsonIgnore
+    @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
     }
