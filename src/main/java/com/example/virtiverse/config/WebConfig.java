@@ -21,12 +21,14 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:4200") // Update with your Angular app's URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Origin", "Content-Type", "Accept");
+
+    }
+   @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+     configurer.defaultContentType(MediaType.APPLICATION_JSON);
     }
 
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.defaultContentType(MediaType.APPLICATION_JSON);
-    }
+
 
 
 }

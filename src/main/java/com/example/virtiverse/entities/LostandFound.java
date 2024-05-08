@@ -1,5 +1,6 @@
 package com.example.virtiverse.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -32,5 +33,6 @@ public class LostandFound {
      @ManyToOne(cascade = CascadeType.ALL)
 
      User iduser;
+
 
 }

@@ -1,4 +1,5 @@
 
+
 package com.example.virtiverse.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +24,9 @@ public class User implements UserDetails {
     private Long id;
     @Column(unique = true)
     private String email;
-    private String name;
+
+    private String name ;
+
     private String password;
     private String role;
     private String image ;
@@ -31,7 +34,9 @@ public class User implements UserDetails {
 
 
 
+
     @JsonIgnore
+
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,5 +69,3 @@ public class User implements UserDetails {
         return true;
     }
 }
-
-

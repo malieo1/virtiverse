@@ -1,5 +1,7 @@
 package com.example.virtiverse.entities;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,10 +20,12 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class Covoiturage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
 
      Long id_cov;
      int nombre_placecov;
@@ -35,6 +39,7 @@ public class Covoiturage {
      @ManyToOne
      User userid;
 
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany
     List<User> reservations;
+
 }

@@ -1,4 +1,5 @@
 
+
 package com.example.virtiverse.entities;
 import com.example.virtiverse.entities.enums.TypeJeux;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,3 +34,5 @@ public class Jeux implements Serializable {
     @JsonIgnore
     User iduser;
 }
+
+

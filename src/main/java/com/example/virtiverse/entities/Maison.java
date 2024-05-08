@@ -32,4 +32,5 @@ public class Maison implements Serializable {
     @ManyToMany (cascade = CascadeType.ALL)
     List<User> demandeurs;
 
+
 }

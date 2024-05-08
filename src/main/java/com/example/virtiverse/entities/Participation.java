@@ -17,10 +17,10 @@ import java.io.Serializable;
 public class Participation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     Long idParticipation;
-      long numtel;
-      String email;
-      int nbPlace;
+    Long idParticipation;
+    long numtel;
+    String email;
+    int nbPlace;
 
     @JsonIgnore
     @ManyToOne
@@ -29,5 +29,4 @@ public class Participation implements Serializable {
     @JsonIgnore
     @ManyToOne
     User user;
-
 }

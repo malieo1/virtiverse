@@ -5,6 +5,9 @@ import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.userImp;
 import com.example.virtiverse.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +26,30 @@ public class UserService implements userImp {
 @Autowired
     OurUserRepo ourUserRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     @Override
     public User addUser(User user , MultipartFile multipartFile) throws IOException {
 
-
+        User ourUsers = new User();
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         String uploadDir = "C:/xampp/htdocs/img/" ;
-        user.setImage(fileName);
-        ourUserRepo.save(user);
+
+        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+
+        ourUsers.setEmail(user.getEmail());
+        ourUsers.setPassword(passwordEncoder.encode(user.getPassword()));
+        ourUsers.setRole(user.getRole());
+        ourUsers.setImage(fileName);        ourUsers.setName(user.getName());
+        ourUsers.setPhoneNumber(user.getPhoneNumber());
+        ourUserRepo.save(ourUsers);
+
+
+
+
         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
         return user;
@@ -43,6 +62,7 @@ public class UserService implements userImp {
 
         System.out.println("hedhaa userr");
         System.out.println(user1);
+
         String oldFileName = user1.getImage();
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
         String uploadDir = "C:/xampp/htdocs/img/" ;
