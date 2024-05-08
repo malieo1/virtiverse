@@ -30,7 +30,7 @@ public class LostandFound {
      String datePub;
      long num_tel;
      @ManyToOne(cascade = CascadeType.ALL)
-     @JsonIgnore
+
      User iduser;
 
 }

@@ -4,10 +4,13 @@ import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobContainerClient;
 import com.azure.storage.blob.BlobServiceClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
+import com.example.virtiverse.entities.Event;
 import com.example.virtiverse.entities.LostandFound;
 import com.example.virtiverse.entities.Messages;
+import com.example.virtiverse.entities.User;
 import com.example.virtiverse.repository.LostandFoundRepository;
 import com.example.virtiverse.repository.MessageRepository;
+import com.example.virtiverse.repository.OurUserRepo;
 import com.example.virtiverse.serviceInterface.LostandFoundInterface;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,10 +31,21 @@ public class LostabdFoundService implements LostandFoundInterface {
 
     LostandFoundRepository lostandFoundRepository;
     MessageRepository messageRepository;
+    OurUserRepo userrepo;
 
     @Override
     public List<LostandFound> retrievebyName(String name) {
         return lostandFoundRepository.findByNameOrderByDatePub(name);
+    }
+
+    @Override
+    public LostandFound changestatus(long idpub) {
+        LostandFound publication = lostandFoundRepository.findById(idpub).orElse(null);
+        publication.setStatus("Abolished");
+        return lostandFoundRepository.save(publication);
+
+
+
     }
 
     @Override
@@ -40,12 +54,17 @@ public class LostabdFoundService implements LostandFoundInterface {
     }
 
     @Override
+    public List<LostandFound> retrievebyUser(long id) {
+        return lostandFoundRepository.findByIduserId(id);
+    }
+
+    @Override
     public List<LostandFound> retrieveAllPubs() {
         return lostandFoundRepository.findAll();
     }
 
     @Override
-    public LostandFound addPub(LostandFound pub , MultipartFile file) {
+    public LostandFound addPub(LostandFound pub , MultipartFile file , long id ) {
         try {
             // Uploader le fichier dans Azure Blob Storage
             String imageUrl = uploadToAzureBlobStorage(file);
@@ -55,6 +74,9 @@ public class LostabdFoundService implements LostandFoundInterface {
             e.printStackTrace();
             throw new RuntimeException("Erreur lors du téléchargement de l'image", e);
         }
+        User user = userrepo.findById(id).orElse(null);
+        pub.setIduser(user);
+
         return lostandFoundRepository.save(pub);
     }
     private String uploadToAzureBlobStorage(MultipartFile file) throws IOException {
@@ -76,8 +98,17 @@ public class LostabdFoundService implements LostandFoundInterface {
     }
 
     @Override
-    public LostandFound updatePub(LostandFound pub) {
-        return lostandFoundRepository.save(pub);
+    public LostandFound updatePub( LostandFound updatedpub) {
+        LostandFound existingpub = lostandFoundRepository.findById(updatedpub.getIdPub())
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + updatedpub.getIdPub()));
+        // Mettre à jour les propriétés de l'événement existant avec les nouvelles valeurs
+        existingpub.setName(updatedpub.getName());
+        existingpub.setDescription(updatedpub.getDescription());
+        existingpub.setLocation(updatedpub.getLocation());
+        existingpub.setDatePub(updatedpub.getDatePub());
+        existingpub.setStatus(updatedpub.getStatus());
+        // Enregistrer les modifications dans la base de données et retourner l'événement mis à jour
+        return lostandFoundRepository.save(existingpub);
     }
 
     @Override

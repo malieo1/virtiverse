@@ -34,12 +34,12 @@ import java.util.List;
             return lostandFoundInterface.updatePub(pub);
         }
 
-        @PostMapping("/addPub")
-        public LostandFound addPub(@RequestParam("lostandfound") String pub , @RequestParam("file") MultipartFile file) throws JsonProcessingException {
+        @PostMapping("/addPub/{id}")
+        public LostandFound addPub(@RequestParam("lostandfound") String pub , @RequestParam("file") MultipartFile file , @PathVariable("id") long id ) throws JsonProcessingException {
             LostandFound lostAndFound = new ObjectMapper().readValue(pub, LostandFound.class);
             log.info(pub.toString());
             log.info(file.getName());
-            return lostandFoundInterface.addPub(lostAndFound, file );
+            return lostandFoundInterface.addPub(lostAndFound, file , id );
         }
 
         @DeleteMapping("/removePub/{idpub}")
@@ -60,5 +60,15 @@ import java.util.List;
         @GetMapping("/retrievebyName/{name}")
         public List<LostandFound> retrievebyName(@PathVariable("name") String name) {
         return lostandFoundInterface.retrievebyName(name);
+    }
+
+    @GetMapping("/retrievebyUser/{id}")
+    public List<LostandFound> retrievebyUser(@PathVariable("id") long id) {
+        return lostandFoundInterface.retrievebyUser(id);
+    }
+
+    @PutMapping("/changestatus/{idpub}")
+    public LostandFound changestatus(@PathVariable("idpub") long idpub) {
+        return lostandFoundInterface.changestatus(idpub);
     }
 }

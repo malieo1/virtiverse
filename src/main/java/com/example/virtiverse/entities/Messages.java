@@ -1,5 +1,6 @@
 package com.example.virtiverse.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,9 +21,9 @@ public class Messages  {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     long idmessage;
     String content;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate sendat;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     User iduser;
     @ManyToOne(cascade = CascadeType.ALL)
     LostandFound idpub ;
