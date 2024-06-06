@@ -114,9 +114,18 @@ public class MaisonService implements IMaison {
             throw new IllegalArgumentException("Utilisateur non trouvé pour l'identifiant : " + id);
         }
     }
-    public Maison ajouterDemandeur(Long maisonId, User demandeur) {
+    /*public Maison ajouterDemandeur(Long maisonId, User demandeur) {
         Maison maison = maisonRepository.findById(maisonId).orElse(null);
         Optional<User> optionalUser= userRepository.findById(demandeur.getId());
+        User user = optionalUser.get();
+        maison.getDemandeurs().add(user);
+        return maisonRepository.save(maison);
+    }
+
+     */
+    public Maison ajouterDemandeur(Long maisonId, Long demandeurid) {
+        Maison maison = maisonRepository.findById(maisonId).orElse(null);
+        Optional<User> optionalUser = userRepository.findById(demandeurid);
         User user = optionalUser.get();
         maison.getDemandeurs().add(user);
         return maisonRepository.save(maison);

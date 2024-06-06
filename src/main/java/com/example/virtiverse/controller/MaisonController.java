@@ -76,9 +76,15 @@ public class MaisonController {
     public List<Maison> getMaisonsByUtilisateur(@PathVariable Long id) {
         return maisonService.getMaisonsByUtilisateur(id);
     }
-    @PostMapping("/{maisonId}/demandeur")
+    /*@PostMapping("/{maisonId}/demandeur")
     public Maison ajouterDemandeur(@PathVariable Long maisonId, @RequestBody User demandeur) {
         return maisonService.ajouterDemandeur(maisonId, demandeur);
+    }
+
+     */
+    @PostMapping("/{maisonId}/demandeur/{demandeurid}")
+    public Maison ajouterDemandeur(@PathVariable Long maisonId, @PathVariable Long demandeurid) {
+        return maisonService.ajouterDemandeur(maisonId, demandeurid);
     }
     @DeleteMapping("/{maisonId}/demandeurs/{idemandeur}")
     public void supprimerDemandeur(@PathVariable Long maisonId, @PathVariable Long idemandeur) {
